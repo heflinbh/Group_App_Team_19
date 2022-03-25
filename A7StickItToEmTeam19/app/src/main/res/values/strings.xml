@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">A7 Stick It To \'Em - Team 19</string>
+    <string name="player_1">Player 1</string>
+    <string name="player_2">Player 2</string>
+    <string name="add_p2">Add P2</string>
+    <string name="add_p1">Add P1</string>
 </resources>

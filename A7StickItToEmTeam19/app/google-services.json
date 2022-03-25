@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "88482908695",
+    "project_id": "a7-stick-it-to--em-c52a7",
+    "storage_bucket": "a7-stick-it-to--em-c52a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88482908695:android:722b0d2ae0ef85a8c76a52",
+        "android_client_info": {
+          "package_name": "edu.neu.a7stickittoem_team19"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88482908695-19k9jou9iv69cbvvgdei8c2kfstj7ani.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGsgZwAD4GnX2MRNFqz5ivVmi5QmnNjm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88482908695-19k9jou9iv69cbvvgdei8c2kfstj7ani.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
