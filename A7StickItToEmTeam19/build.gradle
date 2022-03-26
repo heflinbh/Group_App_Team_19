@@ -10,7 +10,8 @@ buildscript {
         // ...
 
         // Add the following line:
-        classpath 'com.google.gms:google-services:4.3.10'  // Google Services plugin
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.android.tools.build:gradle:7.1.2'// Google Services plugin
     }
 }
 

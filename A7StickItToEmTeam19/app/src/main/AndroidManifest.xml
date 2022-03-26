@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.A7StickItToEmTeam19">
         <activity
+            android:name=".History"
+            android:exported="false" />
+        <activity
+            android:name=".Send"
+            android:exported="false" />
+        <activity
+            android:name=".LoginSignup"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
