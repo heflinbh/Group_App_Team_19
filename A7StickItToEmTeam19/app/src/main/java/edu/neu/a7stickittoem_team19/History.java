@@ -58,11 +58,6 @@ public class History extends AppCompatActivity {
         stickerList.add(item3);
         stickerList.add(item3);
 
-        sentView = (TextView) findViewById(R.id.sentCount);
-        if (sentView == null) {
-            Log.d("BBBBBBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBBBB");
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -77,6 +72,8 @@ public class History extends AppCompatActivity {
                 startActivity(new Intent(History.this, Send.class));
             }
         });
+
+        sentView = findViewById(R.id.sentCount);
 
         Thread t = new Thread() {
             @Override
@@ -104,11 +101,7 @@ public class History extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (sentView == null) {
-            Log.d("AAAAAAAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        } else {
-            sentView.setText("You've sent " + "2" + "stickers.");
-        }
+        sentView.setText("You've sent " + "2" + "stickers.");
     }
 
     @Override
