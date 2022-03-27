@@ -21,8 +21,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class FbService extends Service {
     private final IBinder binder = new LocalBinder();
     private final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-    private final ArrayList<Message> messages = new ArrayList<>();
-    private static ArrayList<User> users = new ArrayList<>();
+    private static final ArrayList<Message> messages = new ArrayList<>();
+    private static final ArrayList<User> users = new ArrayList<>();
     private ReadWriteLock messagesRWLock = new ReentrantReadWriteLock();
     private ReadWriteLock usersRWLock = new ReentrantReadWriteLock();
 
@@ -49,6 +49,8 @@ public class FbService extends Service {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // get the relevant write lock
                 // add the new information in the user list
+                User user = snapshot.getValue(User.class);
+                users.add(user);
                 // release write lock
                 // send appropriate notifications as needed
             }
@@ -79,6 +81,8 @@ public class FbService extends Service {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // acquire the appropriate write lock
                 // add information in the messages list
+                Message message = snapshot.getValue(Message.class);
+                messages.add(message);
                 // release write lock
                 // send appropriate notifications as needed
             }
@@ -158,6 +162,7 @@ public class FbService extends Service {
     }
 
     public static int getStickersSent() {
-        return me.getStickersSent();
+//        return me.getStickersSent();
+        return messages.size();
     }
 }

@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,6 +21,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class History extends AppCompatActivity {
+
+    private FbService fbService;
+    private boolean bound;
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            FbService.LocalBinder binder = (FbService.LocalBinder) iBinder;
+            fbService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {}
+    };
 
     private Button sendButton;
     RecyclerView recyclerView;
@@ -39,8 +58,10 @@ public class History extends AppCompatActivity {
         stickerList.add(item3);
         stickerList.add(item3);
 
-        sentView = findViewById(R.id.sentCount);
-        sentView.setText("You've sent " + FbService.getStickersSent() + "stickers.");
+        sentView = (TextView) findViewById(R.id.sentCount);
+        if (sentView == null) {
+            Log.d("BBBBBBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBBBB");
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
@@ -56,12 +77,38 @@ public class History extends AppCompatActivity {
                 startActivity(new Intent(History.this, Send.class));
             }
         });
+
+        Thread t = new Thread() {
+            @Override
+            public void run () {
+                startService(new Intent(getApplicationContext(), FbService.class));
+            }
+        };
+        t.run();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bindService(new Intent(this, FbService.class), connection, Context.BIND_AUTO_CREATE);
+        bound = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        unbindService(connection);
+        bound = false;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        sentView.setText("You've sent " + FbService.getStickersSent() + "stickers.");
+        if (sentView == null) {
+            Log.d("AAAAAAAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        } else {
+            sentView.setText("You've sent " + "2" + "stickers.");
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,11 +51,9 @@ public class LoginSignup extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.loginButton:
-                Intent sendActivity = new Intent(getApplicationContext(), Send.class);
 
                 usernameEditText = findViewById(R.id.username);
                 String username = usernameEditText.getText().toString();
-                sendActivity.putExtra("Username", username);
 
                 if (!FbService.containsUser(username)) {
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
@@ -64,6 +63,8 @@ public class LoginSignup extends AppCompatActivity {
                     FbService.setMe(me);
                 }
 
+                Intent sendActivity = new Intent(getApplicationContext(), Send.class);
+                sendActivity.putExtra("Username", username);
                 startActivity(sendActivity);
                 break;
         }
@@ -82,4 +83,6 @@ public class LoginSignup extends AppCompatActivity {
         unbindService(connection);
         bound = false;
     }
+
+
 }
