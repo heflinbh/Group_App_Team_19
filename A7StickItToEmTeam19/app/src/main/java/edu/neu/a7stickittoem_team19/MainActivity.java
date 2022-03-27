@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         PlayerRep p = snapshot.getValue(PlayerRep.class);
-                        Log.d("ADDED PLAYER", p.name);
+                        Log.d("ADDED PLAYER", p.getName());
 
                         if (snapshot.getKey().equalsIgnoreCase("player1")) {
-                            score_p1.setText(String.valueOf(p.score));
-                            p1 = new Player(p);
+                            score_p1.setText(String.valueOf(p.getScore()));
+                            p1 = new Player("abc", 10);
                         } else {
-                            score_p2.setText(String.valueOf(p.score));
-                            p2 = new Player(p);
+                            score_p2.setText(String.valueOf(p.getScore()));
+                            p2 = new Player("def", 5);
                         }
 
                     }

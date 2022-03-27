@@ -1,8 +1,8 @@
 package edu.neu.a7stickittoem_team19;
 
 public class PlayerRep {
-    public String name;
-    public String score;
+    private String name;
+    private String score;
 //    public String datePlayed;
 
     public PlayerRep() {}
@@ -16,5 +16,13 @@ public class PlayerRep {
     public PlayerRep(Player p) {
         this.name = p.name;
         this.score = String.valueOf(p.score);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getScore() {
+        return this.score;
     }
 }

@@ -11,10 +11,10 @@ public class Player {
 //        this.datePlayed = date;
     }
 
-    public Player(PlayerRep p) {
-        this.name = p.name;
-        this.score = Integer.valueOf(p.score);
-    }
+//    public Player(PlayerRep p) {
+//        this.name = p.name;
+//        this.score = Integer.valueOf(p.score);
+//    }
 
     public void addPoint() {
         this.score++;

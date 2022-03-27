@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.A7StickItToEmTeam19">
+        <service
+            android:name=".FbService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".History"
             android:exported="false" />
