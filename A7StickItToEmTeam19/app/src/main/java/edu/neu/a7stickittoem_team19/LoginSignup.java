@@ -8,11 +8,19 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginSignup extends AppCompatActivity {
     private FbService fbService;
     private boolean bound;
     private String username; // need to be saved/passed on
+    private EditText usernameEditText;
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -37,6 +45,27 @@ public class LoginSignup extends AppCompatActivity {
             }
         };
         t.run();
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.loginButton:
+                Intent sendActivity = new Intent(getApplicationContext(), Send.class);
+
+                usernameEditText = findViewById(R.id.username);
+                String username = usernameEditText.getText().toString();
+                sendActivity.putExtra("Username", username);
+
+                if (!FbService.containsUser(username)) {
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
+                    myRef.child(username).setValue(new User(username));
+                }
+
+                startActivity(sendActivity);
+                break;
+        }
+
+
     }
 
     @Override

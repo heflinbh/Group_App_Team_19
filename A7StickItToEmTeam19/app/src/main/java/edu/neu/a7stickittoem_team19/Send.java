@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -16,10 +17,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Send extends AppCompatActivity {
 
@@ -31,6 +41,7 @@ public class Send extends AppCompatActivity {
     private Drawable upsideDownSticker;
     private Drawable stickerToSend;
     private String recipientUser;
+    private String fromUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,9 @@ public class Send extends AppCompatActivity {
         history = (Button) findViewById(R.id.history);
         smileySticker = ResourcesCompat.getDrawable(getResources(), R.drawable.smiley, null);
         upsideDownSticker = ResourcesCompat.getDrawable(getResources(), R.drawable.upsidedown, null);
+
+        Intent intent = getIntent();
+        fromUsername = intent.getStringExtra("Username");
 
         smileyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +71,7 @@ public class Send extends AppCompatActivity {
                     Toast.makeText(Send.this, String.format("Sending smiley sticker to %s", recipientUser),
                             Toast.LENGTH_SHORT).show();
                     //Add logic to send to the inputted user here
+                    sendSticker(recipientUser, 1);
                 }
 
             }
@@ -74,7 +89,7 @@ public class Send extends AppCompatActivity {
                     Toast.makeText(Send.this, String.format("Sending upside down sticker to %s", recipientUser),
                             Toast.LENGTH_SHORT).show();
                     //Add logic to send to the inputted user here
-
+                    sendSticker(recipientUser, 2);
                 }
 
             }
@@ -86,9 +101,47 @@ public class Send extends AppCompatActivity {
                 startActivity(new Intent(Send.this, History.class));
             }
         });
-
-
     }
 
+    public void sendSticker(String recipient, Integer stickerId) {
 
+        Date timestamp = Calendar.getInstance().getTime();
+        String refStr = "Inbox";
+
+        Message message = new Message(fromUsername, recipient, String.valueOf(stickerId));
+
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference(refStr);
+        myRef.push().setValue(message);
+
+        myRef = FirebaseDatabase.getInstance().getReference();
+        myRef
+                .child("users")
+                .child(fromUsername)
+                .runTransaction(new Transaction.Handler() {
+                    @Override
+                    public Transaction.Result doTransaction(MutableData mutableData) {
+
+                        User user = mutableData.getValue(User.class);
+                        if (user == null) {
+                            return Transaction.success(mutableData);
+                        }
+
+                        if (stickerId == 1) {
+                            user.incrementA();
+                        }
+                        else {
+                            user.incrementB();
+                        }
+
+                        mutableData.setValue(user);
+
+                        return Transaction.success(mutableData);
+                    }
+
+                    @Override
+                    public void onComplete(DatabaseError databaseError, boolean b,
+                                           DataSnapshot dataSnapshot) {
+                    }
+                });
+    }
 }

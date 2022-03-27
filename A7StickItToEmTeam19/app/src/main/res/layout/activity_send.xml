@@ -27,7 +27,8 @@
         app:layout_constraintStart_toEndOf="@+id/smileyButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.643"
-        app:srcCompat="@drawable/upsidedown" />
+        app:srcCompat="@drawable/upsidedown"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/smileyButton"
@@ -39,7 +40,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.643"
-        app:srcCompat="@drawable/smiley" />
+        app:srcCompat="@drawable/smiley"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/recipientText"

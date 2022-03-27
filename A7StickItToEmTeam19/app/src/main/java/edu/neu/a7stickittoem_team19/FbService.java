@@ -22,7 +22,7 @@ public class FbService extends Service {
     private final IBinder binder = new LocalBinder();
     private final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private final ArrayList<Message> messages = new ArrayList<>();
-    private final ArrayList<User> users = new ArrayList<>();
+    private static ArrayList<String> users = new ArrayList<>();
     private ReadWriteLock messagesRWLock = new ReentrantReadWriteLock();
     private ReadWriteLock usersRWLock = new ReentrantReadWriteLock();
 
@@ -42,7 +42,7 @@ public class FbService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        dbRef.child("users").addChildEventListener(new ChildEventListener() {
+        dbRef.child("Users").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // get the relevant write lock
@@ -72,7 +72,7 @@ public class FbService extends Service {
             }
         });
 
-        dbRef.child("messages").addChildEventListener(new ChildEventListener() {
+        dbRef.child("Inbox").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // acquire the appropriate write lock
@@ -131,4 +131,8 @@ public class FbService extends Service {
 
     // Get number of users/messages
     // Get latest changes
+
+    public static Boolean containsUser(String username) {
+        return users.contains(username);
+    }
 }
