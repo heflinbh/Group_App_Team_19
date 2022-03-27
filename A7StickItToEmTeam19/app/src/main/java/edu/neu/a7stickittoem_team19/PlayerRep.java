@@ -1,22 +1,20 @@
 package edu.neu.a7stickittoem_team19;
 
-public class Player {
+public class PlayerRep {
     public String name;
-    public int score;
+    public String score;
 //    public String datePlayed;
 
-    public Player(String name, int score) {
+    public PlayerRep() {}
+
+    public PlayerRep(String name, String score) {
         this.name = name;
         this.score = score;
 //        this.datePlayed = date;
     }
 
-    public Player(PlayerRep p) {
+    public PlayerRep(Player p) {
         this.name = p.name;
-        this.score = Integer.valueOf(p.score);
-    }
-
-    public void addPoint() {
-        this.score++;
+        this.score = String.valueOf(p.score);
     }
 }
