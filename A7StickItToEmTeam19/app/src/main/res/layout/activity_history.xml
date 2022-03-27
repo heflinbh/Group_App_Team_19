@@ -43,6 +43,7 @@
         app:layout_constraintVertical_bias="0.192" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="334dp"
         android:layout_height="406dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,6 +58,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send a new sticker"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="650dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
