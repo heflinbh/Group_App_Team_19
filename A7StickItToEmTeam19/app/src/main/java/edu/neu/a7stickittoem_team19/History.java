@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class History extends AppCompatActivity {
     String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
     String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
 
-
+    TextView sentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +39,14 @@ public class History extends AppCompatActivity {
         stickerList.add(item3);
         stickerList.add(item3);
 
+        sentView = findViewById(R.id.sentCount);
+        sentView.setText("You've sent " + FbService.getStickersSent() + "stickers.");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         init(savedInstanceState);
-
 
         sendButton = (Button) findViewById(R.id.sendButton);
 
@@ -53,6 +56,12 @@ public class History extends AppCompatActivity {
                 startActivity(new Intent(History.this, Send.class));
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sentView.setText("You've sent " + FbService.getStickersSent() + "stickers.");
     }
 
     @Override

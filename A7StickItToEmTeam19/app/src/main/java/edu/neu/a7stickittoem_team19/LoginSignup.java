@@ -58,14 +58,15 @@ public class LoginSignup extends AppCompatActivity {
 
                 if (!FbService.containsUser(username)) {
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
-                    myRef.child(username).setValue(new User(username));
+
+                    User me = new User(username);
+                    myRef.child(username).setValue(me);
+                    FbService.setMe(me);
                 }
 
                 startActivity(sendActivity);
                 break;
         }
-
-
     }
 
     @Override

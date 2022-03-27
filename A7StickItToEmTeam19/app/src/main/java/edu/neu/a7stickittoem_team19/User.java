@@ -48,4 +48,8 @@ public class User {
         int temp = Integer.valueOf(this.quantStampB) + 1;
         this.quantStampB = String.valueOf(temp);
     }
+
+    public int getStickersSent() {
+        return Integer.valueOf(quantStampA) + Integer.valueOf(quantStampB);
+    }
 }

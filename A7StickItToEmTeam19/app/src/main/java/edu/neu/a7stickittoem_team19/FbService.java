@@ -22,9 +22,11 @@ public class FbService extends Service {
     private final IBinder binder = new LocalBinder();
     private final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private final ArrayList<Message> messages = new ArrayList<>();
-    private static ArrayList<String> users = new ArrayList<>();
+    private static ArrayList<User> users = new ArrayList<>();
     private ReadWriteLock messagesRWLock = new ReentrantReadWriteLock();
     private ReadWriteLock usersRWLock = new ReentrantReadWriteLock();
+
+    private static User me;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -133,6 +135,29 @@ public class FbService extends Service {
     // Get latest changes
 
     public static Boolean containsUser(String username) {
-        return users.contains(username);
+        for (int i = 0; i < users.size(); ++i) {
+            User tmp = users.get(i);
+            if (tmp.getUsername() == username) {
+                me = tmp;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void setMe(User newMe) {
+        me = newMe;
+    }
+
+    public static void incrementStampASent() {
+        me.incrementA();
+    }
+
+    public static void incrementStampBSent() {
+        me.incrementB();
+    }
+
+    public static int getStickersSent() {
+        return me.getStickersSent();
     }
 }

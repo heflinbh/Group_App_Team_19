@@ -113,35 +113,41 @@ public class Send extends AppCompatActivity {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference(refStr);
         myRef.push().setValue(message);
 
-        myRef = FirebaseDatabase.getInstance().getReference();
-        myRef
-                .child("users")
-                .child(fromUsername)
-                .runTransaction(new Transaction.Handler() {
-                    @Override
-                    public Transaction.Result doTransaction(MutableData mutableData) {
+        if (stickerId == 1) {
+            FbService.incrementStampASent();
+        } else {
+            FbService.incrementStampBSent();
+        }
 
-                        User user = mutableData.getValue(User.class);
-                        if (user == null) {
-                            return Transaction.success(mutableData);
-                        }
-
-                        if (stickerId == 1) {
-                            user.incrementA();
-                        }
-                        else {
-                            user.incrementB();
-                        }
-
-                        mutableData.setValue(user);
-
-                        return Transaction.success(mutableData);
-                    }
-
-                    @Override
-                    public void onComplete(DatabaseError databaseError, boolean b,
-                                           DataSnapshot dataSnapshot) {
-                    }
-                });
+//        myRef = FirebaseDatabase.getInstance().getReference();
+//        myRef
+//                .child("users")
+//                .child(fromUsername)
+//                .runTransaction(new Transaction.Handler() {
+//                    @Override
+//                    public Transaction.Result doTransaction(MutableData mutableData) {
+//
+//                        User user = mutableData.getValue(User.class);
+//                        if (user == null) {
+//                            return Transaction.success(mutableData);
+//                        }
+//
+//                        if (stickerId == 1) {
+//                            user.incrementA();
+//                        }
+//                        else {
+//                            user.incrementB();
+//                        }
+//
+//                        mutableData.setValue(user);
+//
+//                        return Transaction.success(mutableData);
+//                    }
+//
+//                    @Override
+//                    public void onComplete(DatabaseError databaseError, boolean b,
+//                                           DataSnapshot dataSnapshot) {
+//                    }
+//                });
     }
 }
