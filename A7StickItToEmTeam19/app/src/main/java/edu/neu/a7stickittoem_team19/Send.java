@@ -1,13 +1,24 @@
 package edu.neu.a7stickittoem_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -163,5 +174,35 @@ public class Send extends AppCompatActivity {
         } else {
             FbService.incrementStampBSent();
         }
+    }
+
+
+    public void notification(View view) {
+
+        // create channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel =
+                    new NotificationChannel("notification_channel", "notification_channel_name", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        Intent intent = new Intent(this, History.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
+        PendingIntent sendStickerIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
+                new Intent(this, Send.class), 0);
+
+        // create notification
+        Notification notification = new NotificationCompat.Builder(this, getString(R.string.channel_id))
+                .setContentTitle("Sent")
+                .setContentText("Check your stickers.").setSmallIcon(R.drawable.ic_notification_icon)
+                .addAction(R.drawable.ic_notification_icon, "Reply ", sendStickerIntent).setContentIntent(pIntent)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification_icon)))
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
     }
 }

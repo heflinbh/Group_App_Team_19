@@ -4,4 +4,5 @@
     <string name="player_2">Player 2</string>
     <string name="add_p2">Add P2</string>
     <string name="add_p1">Add P1</string>
+    <string name="channel_id">CHANNEL_ID_NOTIFICATION</string>
 </resources>

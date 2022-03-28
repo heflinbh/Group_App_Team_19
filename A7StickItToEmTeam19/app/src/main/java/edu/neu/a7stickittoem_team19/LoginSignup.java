@@ -1,10 +1,18 @@
 package edu.neu.a7stickittoem_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
@@ -35,6 +43,7 @@ public class LoginSignup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
         setContentView(R.layout.activity_login_signup);
 
         Thread t = new Thread() {
@@ -50,6 +59,7 @@ public class LoginSignup extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.loginButton:
 
+                notification();
                 usernameEditText = findViewById(R.id.username);
                 String username = usernameEditText.getText().toString();
 
@@ -89,5 +99,34 @@ public class LoginSignup extends AppCompatActivity {
         Date date = new Date();
         Timestamp stamp = new Timestamp(date.getTime());
         return stamp.getTime();
+    }
+
+    private void createNotificationChannel() {
+
+        // create channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel =
+                    new NotificationChannel("notification_channel", "notification_channel_name", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+    private void notification() {
+        // create notification
+        Notification notification = new NotificationCompat.Builder(this, getString(R.string.channel_id))
+                .setContentTitle("Logged in")
+                .setContentText("You're logged in.")
+                .setSmallIcon(R.drawable.ic_notification_icon)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification_icon)))
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        notification.flags |= Notification.FLAG_AUTO_CANCEL ;
+
+        notificationManager.notify(0, notification);
     }
 }
