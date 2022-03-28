@@ -80,7 +80,6 @@ public class History extends AppCompatActivity {
         super.onStart();
         bindService(new Intent(this, FbService.class), connection, Context.BIND_AUTO_CREATE);
         bound = true;
-        FbService.registerContext(this);
     }
 
     @Override
@@ -88,13 +87,19 @@ public class History extends AppCompatActivity {
         super.onStop();
         unbindService(connection);
         bound = false;
-        FbService.registerContext(null);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        FbService.registerContext(this);
         sentView.setText("You've sent " + FbService.getStickersSent() + " stickers.");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FbService.registerContext(null);
     }
 
     @Override

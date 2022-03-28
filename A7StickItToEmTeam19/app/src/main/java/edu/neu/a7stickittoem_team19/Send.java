@@ -127,7 +127,6 @@ public class Send extends AppCompatActivity {
         super.onStart();
         bindService(new Intent(this, FbService.class), connection, Context.BIND_AUTO_CREATE);
         bound = true;
-        FbService.registerContext(this);
     }
 
     @Override
@@ -135,6 +134,17 @@ public class Send extends AppCompatActivity {
         super.onStop();
         unbindService(connection);
         bound = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FbService.registerContext(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         FbService.registerContext(null);
     }
 
