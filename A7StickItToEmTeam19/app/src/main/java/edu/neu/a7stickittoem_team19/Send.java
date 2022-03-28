@@ -1,8 +1,8 @@
 package edu.neu.a7stickittoem_team19;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.content.ComponentName;
@@ -12,37 +12,25 @@ import android.content.ServiceConnection;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -71,11 +59,12 @@ public class Send extends AppCompatActivity {
     private Drawable stickerToSend;
     private String recipientUser;
     private String fromUsername;
+    private long lastMsg = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        createNotificationChannel();
         setContentView(R.layout.activity_send);
 
         recipientInput = (TextInputEditText) findViewById(R.id.recipientInput);
@@ -102,6 +91,7 @@ public class Send extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     //Add logic to send to the inputted user here
                     sendSticker(recipientUser, 1);
+                    notificationSmileySent();
                 }
 
             }
@@ -120,6 +110,7 @@ public class Send extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     //Add logic to send to the inputted user here
                     sendSticker(recipientUser, 2);
+                    notificationUpsideDownSent();
                 }
 
             }
@@ -129,6 +120,35 @@ public class Send extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Send.this, History.class));
+            }
+        });
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Inbox");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterable<DataSnapshot> children = snapshot.getChildren();
+
+                for (DataSnapshot child : children) {
+                    Message message = child.getValue(Message.class);
+//                    Timestamp newTimestamp = Timestamp.valueOf(message.getTimestamp());
+
+                    if (message.getReceiver().equals(fromUsername)
+//                            && Long.valueOf(message.getTimestamp()) > lastTimestamp
+                            && Long.valueOf(message.getTimestamp()) > lastMsg
+                    ) {
+//                        lastTimestamp = newTimestamp;
+                        lastMsg = Long.valueOf(message.getTimestamp());
+                        notificationNewSticker(message.getMessageType(), message.getSender());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -176,33 +196,63 @@ public class Send extends AppCompatActivity {
         }
     }
 
+    private void createNotificationChannel() {
 
-    public void notification(View view) {
-
-        // create channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel =
                     new NotificationChannel("notification_channel", "notification_channel_name", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
 
-        Intent intent = new Intent(this, History.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
-        PendingIntent sendStickerIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
-                new Intent(this, Send.class), 0);
+    private void notificationSmileySent() {
 
         // create notification
-        Notification notification = new NotificationCompat.Builder(this, getString(R.string.channel_id))
+        String channelId = getString(R.string.channel_id);
+        Notification notification = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle("Sent")
-                .setContentText("Check your stickers.").setSmallIcon(R.drawable.ic_notification_icon)
-                .addAction(R.drawable.ic_notification_icon, "Reply ", sendStickerIntent).setContentIntent(pIntent)
+                .setContentText("Smiley face sent successfully.").setSmallIcon(R.drawable.ic_notification_icon)
                 .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification_icon)))
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.smiley)))
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
+        notificationManager.notify(1, notification);
+    }
+
+    private void notificationUpsideDownSent() {
+
+        String channelId = getString(R.string.channel_id);
+        Notification notification = new NotificationCompat.Builder(this, channelId)
+                .setContentTitle("Sent")
+                .setContentText("Upside down face sent successfully.").setSmallIcon(R.drawable.ic_notification_icon)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.upsidedown)))
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(2, notification);
+    }
+
+    private void notificationNewSticker(String messageType, String sender) {
+
+        int stickerId = 0;
+        if (messageType.equals("1")){
+            stickerId = R.drawable.smiley;
+        } else if (messageType.equals("2")){
+            stickerId = R.drawable.upsidedown;
+        }
+        String channelId = getString(R.string.channel_id);
+        Notification notification = new NotificationCompat.Builder(this, channelId)
+                .setContentTitle("New sticker")
+                .setContentText("You got a new sticker from ".concat(sender).concat(".")).setSmallIcon(R.drawable.ic_notification_icon)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), stickerId)))
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(888, notification);
     }
 }
