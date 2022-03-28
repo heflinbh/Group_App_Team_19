@@ -73,14 +73,6 @@ public class History extends AppCompatActivity {
         });
 
         sentView = findViewById(R.id.sentCount);
-
-        Thread t = new Thread() {
-            @Override
-            public void run () {
-                startService(new Intent(getApplicationContext(), FbService.class));
-            }
-        };
-        t.start();
     }
 
     @Override
@@ -100,7 +92,7 @@ public class History extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        sentView.setText("You've sent " + FbService.getStickersSent() + "stickers.");
+        sentView.setText("You've sent " + FbService.getStickersSent() + " stickers.");
     }
 
     @Override

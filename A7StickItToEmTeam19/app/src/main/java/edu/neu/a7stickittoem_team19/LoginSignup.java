@@ -45,7 +45,7 @@ public class LoginSignup extends AppCompatActivity {
                 startService(new Intent(getApplicationContext(), FbService.class));
             }
         };
-        t.run();
+        t.start();
     }
 
     public void onClick(View view) {

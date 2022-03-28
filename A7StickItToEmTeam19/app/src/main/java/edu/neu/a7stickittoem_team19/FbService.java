@@ -58,24 +58,16 @@ public class FbService extends Service {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
         dbRef.child("Inbox").addChildEventListener(new ChildEventListener() {
@@ -91,24 +83,16 @@ public class FbService extends Service {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                throw new IllegalStateException("should never reach this state");
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 
