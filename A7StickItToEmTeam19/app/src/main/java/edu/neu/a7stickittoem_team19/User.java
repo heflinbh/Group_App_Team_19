@@ -52,4 +52,8 @@ public class User {
     public int getStickersSent() {
         return Integer.valueOf(quantStampA) + Integer.valueOf(quantStampB);
     }
+
+    public boolean equals(User other) {
+        return username == other.getUsername();
+    }
 }

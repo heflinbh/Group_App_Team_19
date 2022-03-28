@@ -1,10 +1,10 @@
 package edu.neu.a7stickittoem_team19;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,19 +15,28 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class FbService extends Service {
     private final IBinder binder = new LocalBinder();
     private final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-    private static final ArrayList<Message> messages = new ArrayList<>();
-    private static final ArrayList<User> users = new ArrayList<>();
-    private ReadWriteLock messagesRWLock = new ReentrantReadWriteLock();
-    private ReadWriteLock usersRWLock = new ReentrantReadWriteLock();
 
-    private static User me;
+    private static final ArrayList<User> users = new ArrayList<>();
+    private static final ArrayList<Message> messages = new ArrayList<>();
+    private static final ArrayList<Message> myMessages = new ArrayList<>();
+
+    private static User me = null;
+    private static long timestamp = -1;
+
+    private static Context uiContext = null;
+
+    private ReadWriteLock usersRWLock = new ReentrantReadWriteLock();
+    private ReadWriteLock messagesRWLock = new ReentrantReadWriteLock();
+    private ReadWriteLock myMessagesRWLock = new ReentrantReadWriteLock();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -48,13 +57,10 @@ public class FbService extends Service {
         dbRef.child("Users").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // get the relevant write lock
-                // add the new information in the user list
+                usersRWLock.writeLock().lock();
                 User user = snapshot.getValue(User.class);
                 users.add(user);
-                Log.d("DEBUG", "a user is added to our list of " + users.size());
-                // release write lock
-                // send appropriate notifications as needed
+                usersRWLock.writeLock().unlock();
             }
 
             @Override
@@ -73,13 +79,24 @@ public class FbService extends Service {
         dbRef.child("Inbox").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // acquire the appropriate write lock
-                // add information in the messages list
+                messagesRWLock.writeLock().lock();
                 Message message = snapshot.getValue(Message.class);
                 messages.add(message);
-                Log.d("DEBUG", "a message is added to our list of " + messages.size());
-                // release write lock
-                // send appropriate notifications as needed
+                messagesRWLock.writeLock().unlock();
+
+                if (message.getReceiver().equals(me)) {
+                    myMessagesRWLock.writeLock().lock();
+                    myMessages.add(message);
+                    myMessagesRWLock.writeLock().unlock();
+
+                    if (Long.valueOf(message.getTimestamp()) > timestamp) {
+                        if (uiContext == null) {
+                            // App not in foreground, send notification
+                        } else {
+                            // App in foreground, send toast message
+                        }
+                    }
+                }
             }
 
             @Override
@@ -108,23 +125,6 @@ public class FbService extends Service {
     }
 
     // methods for clients
-    public User getNthUser() {
-        // acquire read lock
-        // pull appropriate information
-        // release read lock
-        throw new UnsupportedOperationException("Not Implemented");
-    }
-
-    public Message getNthMessage() {
-        // acquire read lock
-        // pull appropriate information
-        // release read lock
-        throw new UnsupportedOperationException("Not Implemented");
-    }
-
-    // Get number of users/messages
-    // Get latest changes
-
     public static Boolean containsUser(String username) {
         for (int i = 0; i < users.size(); ++i) {
             User tmp = users.get(i);
@@ -149,8 +149,21 @@ public class FbService extends Service {
     }
 
     public static int getStickersSent() {
-//        return me.getStickersSent();
-        Log.d("DEBUG", "there are " + messages.size() + " messages in our list");
-        return messages.size();
+        return me.getStickersSent();
+    }
+
+    public static void setTimestamp(long ts) {
+        timestamp = ts;
+    }
+
+    public static void registerContext(Context context) {
+        uiContext = context;
+    }
+
+    // Private methods
+    private String createTimestamp() {
+        Date date = new Date();
+        Timestamp stamp = new Timestamp(date.getTime());
+        return String.valueOf(stamp.getTime());
     }
 }

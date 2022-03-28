@@ -3,16 +3,20 @@ package edu.neu.a7stickittoem_team19;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +36,20 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Send extends AppCompatActivity {
+    private FbService fbService;
+    private boolean bound;
+    private EditText usernameEditText;
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            FbService.LocalBinder binder = (FbService.LocalBinder) iBinder;
+            fbService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {}
+    };
 
     private TextInputEditText recipientInput;
     private ImageButton smileyButton;
@@ -104,6 +122,22 @@ public class Send extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        bindService(new Intent(this, FbService.class), connection, Context.BIND_AUTO_CREATE);
+        bound = true;
+        FbService.registerContext(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        unbindService(connection);
+        bound = false;
+        FbService.registerContext(null);
+    }
+
     public void sendSticker(String recipient, Integer stickerId) {
 
         Date timestamp = Calendar.getInstance().getTime();
@@ -119,36 +153,5 @@ public class Send extends AppCompatActivity {
         } else {
             FbService.incrementStampBSent();
         }
-
-//        myRef = FirebaseDatabase.getInstance().getReference();
-//        myRef
-//                .child("users")
-//                .child(fromUsername)
-//                .runTransaction(new Transaction.Handler() {
-//                    @Override
-//                    public Transaction.Result doTransaction(MutableData mutableData) {
-//
-//                        User user = mutableData.getValue(User.class);
-//                        if (user == null) {
-//                            return Transaction.success(mutableData);
-//                        }
-//
-//                        if (stickerId == 1) {
-//                            user.incrementA();
-//                        }
-//                        else {
-//                            user.incrementB();
-//                        }
-//
-//                        mutableData.setValue(user);
-//
-//                        return Transaction.success(mutableData);
-//                    }
-//
-//                    @Override
-//                    public void onComplete(DatabaseError databaseError, boolean b,
-//                                           DataSnapshot dataSnapshot) {
-//                    }
-//                });
     }
 }

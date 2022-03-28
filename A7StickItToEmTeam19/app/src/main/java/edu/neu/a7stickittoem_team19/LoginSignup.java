@@ -1,26 +1,24 @@
 package edu.neu.a7stickittoem_team19;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class LoginSignup extends AppCompatActivity {
     private FbService fbService;
     private boolean bound;
-    private String username; // need to be saved/passed on
     private EditText usernameEditText;
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -62,6 +60,7 @@ public class LoginSignup extends AppCompatActivity {
                     myRef.child(username).setValue(me);
                     FbService.setMe(me);
                 }
+                FbService.setTimestamp(createTimestamp());
 
                 Intent sendActivity = new Intent(getApplicationContext(), Send.class);
                 sendActivity.putExtra("Username", username);
@@ -75,6 +74,7 @@ public class LoginSignup extends AppCompatActivity {
         super.onStart();
         bindService(new Intent(this, FbService.class), connection, Context.BIND_AUTO_CREATE);
         bound = true;
+        FbService.registerContext(null);
     }
 
     @Override
@@ -82,7 +82,12 @@ public class LoginSignup extends AppCompatActivity {
         super.onStop();
         unbindService(connection);
         bound = false;
+        FbService.registerContext(null);
     }
 
-
+    private long createTimestamp() {
+        Date date = new Date();
+        Timestamp stamp = new Timestamp(date.getTime());
+        return stamp.getTime();
+    }
 }
