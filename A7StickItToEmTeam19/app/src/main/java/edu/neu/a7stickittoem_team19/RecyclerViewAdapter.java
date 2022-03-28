@@ -28,7 +28,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         ItemCard currentItem = itemList.get(position);
         holder.user.setText(currentItem.getUser());
-        holder.sticker.setImageDrawable(currentItem.getSticker());
+
+        if (currentItem.getSticker() == 1) {
+            holder.sticker.setImageResource(R.drawable.smiley);
+        } else {
+            holder.sticker.setImageResource(R.drawable.upsidedown);
+        }
     }
 
     @Override

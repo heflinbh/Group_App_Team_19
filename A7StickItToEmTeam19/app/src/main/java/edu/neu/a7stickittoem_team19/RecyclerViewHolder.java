@@ -17,6 +17,5 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         user = itemView.findViewById(R.id.user);
         sticker = itemView.findViewById(R.id.sticker);
-
     }
 }

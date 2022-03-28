@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +52,7 @@ public class FbService extends Service {
                 // add the new information in the user list
                 User user = snapshot.getValue(User.class);
                 users.add(user);
+                Log.d("DEBUG", "a user is added to our list of " + users.size());
                 // release write lock
                 // send appropriate notifications as needed
             }
@@ -83,6 +85,7 @@ public class FbService extends Service {
                 // add information in the messages list
                 Message message = snapshot.getValue(Message.class);
                 messages.add(message);
+                Log.d("DEBUG", "a message is added to our list of " + messages.size());
                 // release write lock
                 // send appropriate notifications as needed
             }
@@ -117,7 +120,7 @@ public class FbService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     // methods for clients
@@ -163,6 +166,7 @@ public class FbService extends Service {
 
     public static int getStickersSent() {
 //        return me.getStickersSent();
+        Log.d("DEBUG", "there are " + messages.size() + " messages in our list");
         return messages.size();
     }
 }

@@ -6,11 +6,11 @@ import android.widget.ImageView;
 public class ItemCard implements ItemClickListener {
 
     String user;
-    Drawable sticker;
+    int stickerType;
 
-    public ItemCard(String user, Drawable sticker) {
+    public ItemCard(String user, int stickerType) {
         this.user = user;
-        this.sticker = sticker;
+        this.stickerType = stickerType;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ItemCard implements ItemClickListener {
         return user;
     }
 
-    public Drawable getSticker() {
-        return sticker;
+    public int getSticker() {
+        return stickerType;
     }
 }

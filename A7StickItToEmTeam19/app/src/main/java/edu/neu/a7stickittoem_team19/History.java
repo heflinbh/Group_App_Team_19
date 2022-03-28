@@ -21,7 +21,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class History extends AppCompatActivity {
-
     private FbService fbService;
     private boolean bound;
 
@@ -42,9 +41,9 @@ public class History extends AppCompatActivity {
     RecyclerView.LayoutManager recyclerLayoutManager;
     ArrayList<ItemCard> stickerList = new ArrayList<>();
 
-    ItemCard item = new ItemCard("benjamin", null);
-    ItemCard item2 = new ItemCard("yuan", null);
-    ItemCard item3 = new ItemCard("chenyang", null);
+    ItemCard item = new ItemCard("benjamin", 1);
+    ItemCard item2 = new ItemCard("yuan", 2);
+    ItemCard item3 = new ItemCard("chenyang", 1);
 
     String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
     String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
@@ -81,7 +80,7 @@ public class History extends AppCompatActivity {
                 startService(new Intent(getApplicationContext(), FbService.class));
             }
         };
-        t.run();
+        t.start();
     }
 
     @Override
@@ -101,7 +100,7 @@ public class History extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        sentView.setText("You've sent " + "2" + "stickers.");
+        sentView.setText("You've sent " + FbService.getStickersSent() + "stickers.");
     }
 
     @Override
@@ -111,7 +110,7 @@ public class History extends AppCompatActivity {
 
         for (int i = 0; i < size; i++) {
             outState.putString(KEY_OF_INSTANCE + i + "0", stickerList.get(i).getUser());
-            outState.putString(KEY_OF_INSTANCE + i + "3", stickerList.get(i).getSticker().toString());
+            outState.putInt(KEY_OF_INSTANCE + i + "3", stickerList.get(i).getSticker());
         }
         super.onSaveInstanceState(outState);
     }
@@ -129,9 +128,9 @@ public class History extends AppCompatActivity {
 
                 for (int i = 0; i < size; i++) {
                     String user = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
-                    String sticker = savedInstanceState.getString(KEY_OF_INSTANCE + i + "3");
+                    int stickerType = savedInstanceState.getInt(KEY_OF_INSTANCE + i + "3");
 
-                    ItemCard itemCard = new ItemCard(user, null);
+                    ItemCard itemCard = new ItemCard(user, stickerType);
 
                     stickerList.add(itemCard);
                 }
