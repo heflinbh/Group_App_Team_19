@@ -115,7 +115,9 @@ public class LoginSignup extends AppCompatActivity {
 
     private void notification() {
         // create notification
-        Notification notification = new NotificationCompat.Builder(this, getString(R.string.channel_id))
+        String channelId = getString(R.string.channel_id);
+
+        Notification notification = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle("Logged in")
                 .setContentText("You're logged in.")
                 .setSmallIcon(R.drawable.ic_notification_icon)
@@ -127,6 +129,6 @@ public class LoginSignup extends AppCompatActivity {
         // hide the notification after its selected
         notification.flags |= Notification.FLAG_AUTO_CANCEL ;
 
-        notificationManager.notify(0, notification);
+        notificationManager.notify(111, notification);
     }
 }

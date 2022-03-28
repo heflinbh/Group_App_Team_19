@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="channel_id">CHANNEL_ID_NOTIFICATION</string>
+    <string name="channel_id">notification_channel</string>
 </resources>
