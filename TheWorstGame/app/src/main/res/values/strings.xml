@@ -2,7 +2,12 @@
     <string name="app_name">The Worst Game</string>
     <string name="start_new_mission">Start New Mission</string>
     <string name="next_reward">Next Reward:</string>
-    <string name="back_again">Back again,</string>
+    <string name="back_again">Back again, _______?</string>
     <string name="starts_new_mission">Starts new mission</string>
     <string name="tier_progress">Tier Progress</string>
+    <string name="welcome_to_the_worst_game">Welcome to the Worst Game</string>
+    <string name="call_sign">Call Sign</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="unit_designation">Unit Designation</string>
+    <string name="login">Login</string>
 </resources>
