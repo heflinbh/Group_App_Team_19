@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -20,21 +21,17 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.loginButton:
 
-                TextInputEditText textInput = findViewById(R.id.callSignTextInput);
-                String callSign = textInput.getText().toString();
+                TextInputLayout textInput = (TextInputLayout) findViewById(R.id.callSignTextInput);
+                String callSign = textInput.getEditText().getText().toString();
 
-                textInput = findViewById(R.id.unitDesignationTextInput);
-                String unitDesignation = textInput.getText().toString();
+                textInput = (TextInputLayout) findViewById(R.id.unitDesignationTextInput);
+                String unitDesignation = textInput.getEditText().getText().toString();
 
-                Intent mainScreenActivity = new Intent(getApplicationContext(), MainActivity.class);
+                Intent mainScreenActivity = new Intent(getApplicationContext(), HomeActivity.class);
                 mainScreenActivity.putExtra("Call Sign", callSign);
                 mainScreenActivity.putExtra("Unit Designation", unitDesignation);
 
                 startActivity(mainScreenActivity);
-
-                break;
-
-            case R.id.signUpButton:
 
                 break;
         }

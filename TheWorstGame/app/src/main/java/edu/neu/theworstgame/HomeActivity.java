@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     String callSign;
     String unitDesignation;
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         Bundle intent = getIntent().getExtras();
         callSign = intent.getString("Call Sign");
@@ -30,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.startNewMissionButton:
-
-                Intent assessmentActivity = new Intent(getApplicationContext(), AssessmentActivity.class);
+                Intent assessmentActivity = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(assessmentActivity);
-
                 break;
         }
     }
