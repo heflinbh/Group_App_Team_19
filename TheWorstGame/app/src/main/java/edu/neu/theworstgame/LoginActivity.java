@@ -18,21 +18,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
+        TextInputLayout textInput = (TextInputLayout) findViewById(R.id.callSignTextInput);
+        String callSign = textInput.getEditText().getText().toString();
+
+        textInput = (TextInputLayout) findViewById(R.id.unitDesignationTextInput);
+        String unitDesignation = textInput.getEditText().getText().toString();
+
         switch (view.getId()) {
             case R.id.loginButton:
-
-                TextInputLayout textInput = (TextInputLayout) findViewById(R.id.callSignTextInput);
-                String callSign = textInput.getEditText().getText().toString();
-
-                textInput = (TextInputLayout) findViewById(R.id.unitDesignationTextInput);
-                String unitDesignation = textInput.getEditText().getText().toString();
-
                 Intent mainScreenActivity = new Intent(getApplicationContext(), HomeActivity.class);
                 mainScreenActivity.putExtra("Call Sign", callSign);
                 mainScreenActivity.putExtra("Unit Designation", unitDesignation);
-
                 startActivity(mainScreenActivity);
+                break;
 
+            case R.id.signUpButton:
+                Intent storyActivity = new Intent(getApplicationContext(), StoryActivity.class);
+                storyActivity.putExtra("Call Sign", callSign);
+                storyActivity.putExtra("Unit Designation", unitDesignation);
+                startActivity(storyActivity);
                 break;
         }
     }
