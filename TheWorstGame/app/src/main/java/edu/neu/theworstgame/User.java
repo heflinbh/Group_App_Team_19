@@ -1,28 +1,26 @@
 package edu.neu.theworstgame;
 
+import java.util.ArrayList;
+
 public class User {
 
     private String username;
-    private String rank;
+    private ArrayList<Mission> completedMissions;
+    // Haven't decided how to implement tier yet
+    private String tier;
 
-    public User(String username, String rank) {
+    public User(String username) {
         this.username = username;
-        this.rank = rank;
+        this.completedMissions = new ArrayList<>();
     }
 
-    public String getUsername() {
-        return username;
+    public void addCompletedMission(Mission mission) {
+        completedMissions.add(mission);
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public ArrayList<Mission> getCompletedMissions() {
+        return completedMissions;
     }
 
-    public String getRank() {
-        return rank;
-    }
 
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
 }
