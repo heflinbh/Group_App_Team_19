@@ -8,12 +8,14 @@ public class Mission {
     private String sensorUsed;
     // time limit for the task in minutes (if it's a time based task, otherwise 0)
     private int timeLimit;
+    private int frequency;
 
     public Mission(String missionName, String missionDescription, String sensorUsed, int timeLimit) {
         this.missionName = missionName;
         this.missionDescription = missionDescription;
         this.sensorUsed = sensorUsed;
         this.timeLimit = timeLimit;
+        this.frequency = frequency;
     }
 
     public String getMissionName() {
