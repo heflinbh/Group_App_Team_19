@@ -35,8 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.startNewMissionButton:
-                Intent assessmentActivity = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(assessmentActivity);
+                Intent missionActivity = new Intent(getApplicationContext(), MissionAlphaActivity.class);
+                startActivity(missionActivity);
                 break;
         }
     }
@@ -62,6 +62,9 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             case R.id.leaderboard:
                 Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT).show();
+                Intent socialActivity = new Intent(getApplicationContext(), SocialActivity.class);
+                socialActivity.putExtra("Call Sign", callSign);
+                startActivity(socialActivity);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
