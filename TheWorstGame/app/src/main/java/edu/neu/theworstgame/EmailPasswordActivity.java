@@ -44,6 +44,12 @@ public class EmailPasswordActivity extends Activity {
     }
 
     private void createAccount(String email, String password) {
+
+        Log.d(TAG, "createAccount: " + email);
+        if (!validateForm()) {
+            return;
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -92,10 +98,36 @@ public class EmailPasswordActivity extends Activity {
         }
     }
 
+    private void signOut() {
+        mAuth.signOut();
+        updateUI(null);
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+
+        //TODO: check email password !isempty
+
+        return valid;
+    }
 
     private void reload() {
 
+        mAuth.getCurrentUser().reload().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                updateUI(mAuth.getCurrentUser());
+                Toast.makeText(EmailPasswordActivity.this, "Reload successful.",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e(TAG, "reload", task.getException());
+                Toast.makeText(EmailPasswordActivity.this, "Failed to reload user.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 
     private void updateUI(FirebaseUser user) {
 
