@@ -8,6 +8,7 @@ public class Mission {
     private String sensorUsed;
     // time limit for the task in minutes (if it's a time based task, otherwise 0)
     private int timeLimit;
+    // how many times a user should be assigned this mission
     private int frequency;
 
     public Mission(String missionName, String missionDescription, String sensorUsed, int timeLimit) {
@@ -30,8 +31,12 @@ public class Mission {
         return sensorUsed;
     }
 
-    public int timeLimit() {
+    public int getTimeLimit() {
         return timeLimit;
+    }
+
+    public int getFrequency() {
+        return frequency;
     }
 
 }
