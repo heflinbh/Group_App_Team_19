@@ -5,28 +5,40 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.os.CountDownTimer;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class MissionAlphaActivity extends AppCompatActivity {
 
     public int counter = 500;
-    TextView textView;
+    TextView missionTimer;
+    TextView missionHeader;
+    TextView missionDesc;
+    Missions missionsDatabase;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_alpha);
-        textView= findViewById(R.id.textView);
+        missionTimer= findViewById(R.id.missionTimer);
+        missionDesc = findViewById(R.id.missionDesc);
+        missionHeader = findViewById(R.id.missionHeader);
+        missionsDatabase = new Missions();
+        // need to figure out how to get the current user's name here
+        user = new User("worst", "Novice");
+        // hardcoded for now to get an easy mission with a simple timer
+        Mission mission = missionsDatabase.getEasyMissions().get(0);
+
+        missionDesc.setText(mission.getMissionDescription());
+        missionHeader.setText(mission.getMissionName());
 
         new CountDownTimer(30000, 1000){
             public void onTick(long millisUntilFinished){
-                textView.setText(String.valueOf(counter));
+                missionTimer.setText(String.valueOf(mission.getTimeLimit()*60));
                 counter--;
             }
             public  void onFinish(){
-                textView.setText("FINISH!!");
+                missionTimer.setText("Time is up!");
             }
         }.start();
     }

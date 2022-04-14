@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "480033777077",
+    "project_id": "the-worst-game-b40f3",
+    "storage_bucket": "the-worst-game-b40f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480033777077:android:fb322ade82b3c5f9d665fc",
+        "android_client_info": {
+          "package_name": "edu.neu.theworstgame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480033777077-kbe1rdrjhe2gi9hhegealuf2o3jbbl3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRXe2Q7VpWOdH_TNOshOvIKbLWKzUExGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480033777077-kbe1rdrjhe2gi9hhegealuf2o3jbbl3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

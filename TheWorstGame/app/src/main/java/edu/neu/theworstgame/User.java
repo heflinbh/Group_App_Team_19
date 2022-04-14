@@ -9,8 +9,9 @@ public class User {
     // Haven't decided how to implement tier yet
     private String tier;
 
-    public User(String username) {
+    public User(String username, String tier) {
         this.username = username;
+        this.tier = tier;
         this.completedMissions = new ArrayList<>();
     }
 
@@ -20,6 +21,10 @@ public class User {
 
     public ArrayList<Mission> getCompletedMissions() {
         return completedMissions;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
 
