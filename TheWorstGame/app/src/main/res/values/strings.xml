@@ -14,4 +14,17 @@
     <string name="add_friend">Add Friend</string>
     <string name="username">Username</string>
     <string name="rank">Rank</string>
+
+    <string-array name="ages">
+        <item> "0 - 17" </item>
+        <item> "18 - 23" </item>
+        <item> "24 - 29" </item>
+        <item> "30 - 35" </item>
+        <item> "36 - 41" </item>
+        <item> "42 - 47" </item>
+        <item> "48 - 53" </item>
+        <item> "54 - 59" </item>
+        <item> "60 - 65" </item>
+        <item> "66 - " </item>
+    </string-array>
 </resources>
