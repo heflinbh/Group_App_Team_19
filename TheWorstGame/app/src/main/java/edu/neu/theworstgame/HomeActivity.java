@@ -35,8 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.startNewMissionButton:
-                Intent missionActivity = new Intent(getApplicationContext(), MissionAlphaActivity.class);
-                startActivity(missionActivity);
+                Intent assessmentActivity = new Intent(getApplicationContext(), AssessmentActivity.class);
+                startActivity(assessmentActivity);
                 break;
         }
     }

@@ -11,7 +11,7 @@
         android:theme="@style/Theme.TheWorstGame">
 
         <activity
-            android:name=".SplashLaunchActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +35,7 @@
             android:name=".StoryActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".SplashLaunchActivity"
             android:exported="false" />
         <activity
             android:name=".AssessmentActivity"
@@ -44,7 +44,7 @@
             android:name=".LoadingActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".HomeActivity"
             android:exported="true">
         </activity>
     </application>

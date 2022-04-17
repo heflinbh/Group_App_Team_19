@@ -14,6 +14,12 @@
     <string name="add_friend">Add Friend</string>
     <string name="username">Username</string>
     <string name="rank">Rank</string>
+    <string name="are_you_tired">Are you tired?</string>
+    <string name="give_me_a_mission">Give me a mission!</string>
+    <string name="do_you_have_time">Do you have time?</string>
+    <string name="yes">Yes</string>
+    <string name="how_good_are_you_at_being_productive">How good are you at being productive?</string>
+    <string name="no">No</string>
 
     <string-array name="ages">
         <item> "0 - 17" </item>
@@ -27,4 +33,22 @@
         <item> "60 - 65" </item>
         <item> "66 - " </item>
     </string-array>
+
+    <string-array name="time">
+        <item> "&lt; minutes" </item>
+        <item> "5 minutes" </item>
+        <item> "10 minutes" </item>
+        <item> "15 minutes" </item>
+        <item> "20 minutes" </item>
+        <item> "&gt;20 minutes" </item>
+    </string-array>
+
+    <string-array name="fatigue">
+        <item> "1" </item>
+        <item> "2" </item>
+        <item> "3" </item>
+        <item> "4" </item>
+        <item> "5" </item>
+    </string-array>
+
 </resources>
