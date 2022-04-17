@@ -2,17 +2,25 @@ package edu.neu.theworstgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class StoryStart extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView current;
     private Spinner spinner;
+
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,7 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     public void onClick(View v) {
+
         switch(v.getId()) {
             case R.id.story_proceed1:
                 setContentView(R.layout.story2);
@@ -39,6 +48,12 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                 break;
             case R.id.story_proceed2:
                 // Record Username and Password
+
+                TextInputLayout callSign = findViewById(R.id.call_sign_input);
+                TextInputLayout unitDesignation = findViewById(R.id.unit_designation_input);
+
+                username = callSign.getEditText().getText().toString();
+                password = unitDesignation.getEditText().getText().toString();
 
                 setContentView(R.layout.story3);
 
@@ -69,8 +84,15 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                 break;
             case R.id.working:
                 // record and move to main screen
+                Intent homeActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+
+                homeActivityIntent.putExtra("Call Sign", username);
+                homeActivityIntent.putExtra("Unit Designation", password);
+
+                startActivity(homeActivityIntent);
                 finish();
                 break;
+
             case R.id.training:
                 // record and move to main screen
                 finish();
