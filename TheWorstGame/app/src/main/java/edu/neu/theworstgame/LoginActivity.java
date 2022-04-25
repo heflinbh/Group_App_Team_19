@@ -114,7 +114,6 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
         User user = new User(username
                 , password
-                ,null
                 , display_name
                 , -1
                 , 0

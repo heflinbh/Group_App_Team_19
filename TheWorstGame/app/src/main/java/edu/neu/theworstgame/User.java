@@ -8,8 +8,6 @@ public class User implements Serializable {
     private String username;
     String password;
     private ArrayList<Mission> completedMissions;
-    // Haven't decided how to implement tier yet
-    private String tier;
     private String displayName;
     private long lastMissionTimestamp;
     private int missionAccomplished;
@@ -20,7 +18,6 @@ public class User implements Serializable {
 
     public User(String username
             , String password
-            , String tier
             , String displayName
             , long lastMissionTimestamp
             , int missionAccomplished
@@ -28,7 +25,6 @@ public class User implements Serializable {
     ) {
         this.username = username;
         this.password = password;
-        this.tier = tier;
         this.displayName = displayName;
         this.completedMissions = new ArrayList<>();
         this.lastMissionTimestamp = lastMissionTimestamp;
@@ -37,15 +33,13 @@ public class User implements Serializable {
     }
 
     /**
-     * Initial user with no mission history
-     * no display name entered use username
-     * @param username
-     * @param tier
+     * Initial new user
+     * @param username String
+     * @param password String
      */
-    public User(String username, String tier) {
+    public User(String username, String password) {
         this.username = username;
-        this.password = "";
-        this.tier = tier;
+        this.password = password;
         this.displayName = username;
         this.completedMissions = new ArrayList<>();
         this.lastMissionTimestamp = -1;
@@ -83,6 +77,28 @@ public class User implements Serializable {
 
     public int getPoints() {
         return points;
+    }
+
+    /**
+     * tier implemented here
+     * @return tier as String
+     */
+    public String calculateTier() {
+        if (points == 0) {
+            return "Unranked";
+        } else if (points <= 3) {
+            return "Bronze";
+        } else if (points <= 10) {
+            return "Silver";
+        } else if (points <= 25) {
+            return "Gold";
+        } else if (points <= 50) {
+            return "Platinum";
+        } else if (points <= 100) {
+            return "Diamond";
+        } else {
+            return "Crystal";
+        }
     }
 
 }
