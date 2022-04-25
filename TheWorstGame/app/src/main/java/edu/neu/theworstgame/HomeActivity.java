@@ -16,6 +16,7 @@ public class HomeActivity extends AppCompatActivity {
 
     String callSign;
     String unitDesignation;
+    User user;
 
     TextView welcomeTextView;
 
@@ -27,9 +28,10 @@ public class HomeActivity extends AppCompatActivity {
         Bundle intent = getIntent().getExtras();
         callSign = intent.getString("Call Sign");
         unitDesignation = intent.getString("Unit Designation");
+        user = (User) intent.getSerializable("user");
 
         welcomeTextView = findViewById(R.id.welcomeTextView);
-        welcomeTextView.setText("Back again, " + callSign + "?");
+        welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
     }
 
     public void onClick(View view) {

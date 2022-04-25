@@ -1,17 +1,18 @@
 package edu.neu.theworstgame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
 
     private String username;
+    String password;
     private ArrayList<Mission> completedMissions;
     // Haven't decided how to implement tier yet
-    String password;
     private String tier;
-    private String display_name;
-    private long last_mission_timestamp;
-    private int mission_accomplished;
+    private String displayName;
+    private long lastMissionTimestamp;
+    private int missionAccomplished;
     private int points;
 
     public User() {
@@ -20,18 +21,18 @@ public class User {
     public User(String username
             , String password
             , String tier
-            , String display_name
-            , long last_mission_timestamp
-            , int mission_accomplished
+            , String displayName
+            , long lastMissionTimestamp
+            , int missionAccomplished
             , int points
     ) {
         this.username = username;
         this.password = password;
         this.tier = tier;
-        this.display_name = display_name;
+        this.displayName = displayName;
         this.completedMissions = new ArrayList<>();
-        this.last_mission_timestamp = last_mission_timestamp;
-        this.mission_accomplished = mission_accomplished;
+        this.lastMissionTimestamp = lastMissionTimestamp;
+        this.missionAccomplished = missionAccomplished;
         this.points = points;
     }
 
@@ -45,10 +46,10 @@ public class User {
         this.username = username;
         this.password = "";
         this.tier = tier;
-        this.display_name = username;
+        this.displayName = username;
         this.completedMissions = new ArrayList<>();
-        this.last_mission_timestamp = -1;
-        this.mission_accomplished = 0;
+        this.lastMissionTimestamp = -1;
+        this.missionAccomplished = 0;
         this.points = 0;
     }
 
@@ -69,15 +70,15 @@ public class User {
     }
 
     public String getDisplayName() {
-        return display_name;
+        return displayName;
     }
 
     public long getLastMissionTimestamp() {
-        return last_mission_timestamp;
+        return lastMissionTimestamp;
     }
 
     public int getMissionAccomplished() {
-        return mission_accomplished;
+        return missionAccomplished;
     }
 
     public int getPoints() {

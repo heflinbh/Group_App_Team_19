@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, "Password incorrect.", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(LoginActivity.this, "Logged in.", Toast.LENGTH_SHORT).show();
+
+                                        mainScreenActivity.putExtra("user", user);
                                         startActivity(mainScreenActivity);
                                     };
                                 }
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText( LoginActivity.this, "User existed. Please login.", Toast.LENGTH_SHORT).show();
                         }else {
                             createNewUser(callSign, callSign, unitDesignation);
+                            storyStart.putExtra("user", user);
                             startActivity(storyStart);
                         }
                     }
