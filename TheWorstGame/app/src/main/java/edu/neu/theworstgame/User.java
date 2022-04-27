@@ -42,7 +42,7 @@ public class User implements Serializable {
         this.password = password;
         this.displayName = username;
         this.completedMissions = new ArrayList<>();
-        this.lastMissionTimestamp = -1;
+        this.lastMissionTimestamp = System.currentTimeMillis();
         this.missionAccomplished = 0;
         this.points = 0;
     }
