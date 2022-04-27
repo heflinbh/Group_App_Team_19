@@ -24,14 +24,16 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         Bundle intent = getIntent().getExtras();
-        callSign = intent.getString("Call Sign");
-        unitDesignation = intent.getString("Unit Designation");
-        user = (User) intent.getSerializable("user");
+        if (intent != null) {
+            callSign = intent.getString("Call Sign");
+            unitDesignation = intent.getString("Unit Designation");
+            user = (User) intent.getSerializable("user");
 
-        welcomeTextView = findViewById(R.id.welcomeTextView);
-        welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
+            welcomeTextView = findViewById(R.id.welcomeTextView);
+            welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
+        }
+
     }
 
     public void onClick(View view) {
