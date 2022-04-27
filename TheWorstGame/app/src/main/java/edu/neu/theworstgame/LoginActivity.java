@@ -78,27 +78,24 @@ public class LoginActivity extends AppCompatActivity {
 
             case R.id.signUpButton:
                 Intent storyStart = new Intent(getApplicationContext(), StoryStart.class);
-//                storyStart.putExtra("Call Sign", callSign);
-//                storyStart.putExtra("Unit Designation", unitDesignation);
-//
-//                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        if (snapshot.hasChild(callSign)){
-//                            Toast.makeText( LoginActivity.this, "User existed. Please login.", Toast.LENGTH_SHORT).show();
-//                        }else {
-//                            createNewUser(callSign, callSign, unitDesignation);
-//                            storyStart.putExtra("user", user);
-//                            startActivity(storyStart);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-                startActivity(storyStart);
+                storyStart.putExtra("Call Sign", callSign);
+                storyStart.putExtra("Unit Designation", unitDesignation);
+
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.hasChild(callSign)){
+                            Toast.makeText( LoginActivity.this, "Username existed. Please login.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            startActivity(storyStart);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
                 break;
         }
