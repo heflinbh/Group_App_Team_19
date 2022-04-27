@@ -65,6 +65,10 @@ public class User implements Serializable {
         return password;
     }
 
+    /**
+     * set new password
+     * @param password1 new password
+     */
     public void setPassword(String password1) {
         password = password1;
     }
@@ -73,6 +77,10 @@ public class User implements Serializable {
         return displayName;
     }
 
+    /**
+     * set new display name
+     * @param displayName1 new display name
+     */
     public void setDisplayName(String displayName1) {
         displayName = displayName1;
     }
@@ -81,6 +89,9 @@ public class User implements Serializable {
         return lastMissionTimestamp;
     }
 
+    /**
+     * set lass mission ts to now
+     */
     public void setLastMissionTimestamp() {
         lastMissionTimestamp = System.currentTimeMillis();
     }
@@ -89,6 +100,10 @@ public class User implements Serializable {
         return missionAccomplished;
     }
 
+    /**
+     * add 1 mission
+     * @return mission +1
+     */
     public int addOneMissionAccomplished() {
         missionAccomplished++;
         return missionAccomplished;
@@ -98,6 +113,11 @@ public class User implements Serializable {
         return points;
     }
 
+    /**
+     * add x points to current
+     * @param adding x
+     * @return points + x
+     */
     public int addPoints(int adding) {
         points += adding;
         return points;
@@ -126,6 +146,14 @@ public class User implements Serializable {
     }
 
 
+    /**
+     * For example:
+     *
+     * DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
+     * user.updateUserToFirebase(myRef);
+     *
+     * @param myRefUsers DatabaseReference path "users"
+     */
     public void updateUserToFirebase (DatabaseReference myRefUsers) {
         myRefUsers.child(this.username).setValue(this);
     }
