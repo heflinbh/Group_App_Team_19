@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import java.io.File;
+
 public class SplashLaunchActivity extends AppCompatActivity {
+    private final String FILE_NAME = "AGENT.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +19,8 @@ public class SplashLaunchActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         // Determine if this is the first time playing the game
-        boolean first_time = true;
+        File file = getApplicationContext().getFileStreamPath(FILE_NAME);
+        boolean first_time = !file.exists();
 
         Handler h = new Handler();
         h.postDelayed(new Runnable() {

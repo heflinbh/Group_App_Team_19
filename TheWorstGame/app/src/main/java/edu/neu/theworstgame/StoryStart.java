@@ -7,28 +7,35 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class StoryStart extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private TextView current;
+    private TextView current1;
+    private TextView current2;
     private Spinner spinner;
 
     private String username;
     private String password;
+
+    private final String FILE_NAME = "AGENT.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_start);
 
-        current = findViewById(R.id.story_text1);
-        current.setText(
+        current1 = findViewById(R.id.story_text1);
+        current1.setText(
                 "Apologies for the \"forget me\" spell. We operate in an hostile world. \n\n" +
                 "You are here, so I assume you have regained enough of your previous memories to remember this channel. \n"
         );
@@ -39,12 +46,17 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
         switch(v.getId()) {
             case R.id.story_proceed1:
                 setContentView(R.layout.story2);
-                current = findViewById(R.id.story_text2);
-                current.setText(
-                        "As your training had already been made clear, reincarnation magic is hardly a precise science. \n\n" +
-                        "If you remember your call sign and unit designation, please enter them below. " +
-                        "Otherwise, please pick a new call sign and unit, and we'll refold you into the Organization."
+                current1 = findViewById(R.id.story_text2_1);
+                current1.setText(
+                        "As your training had already been made clear, reincarnation magic is hardly a precise science. \n"
                 );
+
+                current2 = findViewById(R.id.story_text2_2);
+                current2.setText(
+                        "If you remember your call sign and pass phrase, please enter them below. " +
+                        "Otherwise, please pick a new call sign and pass phrase, and we'll refold you into the Organization."
+                );
+
                 break;
             case R.id.story_proceed2:
                 // Record Username and Password
@@ -57,8 +69,8 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
 
                 setContentView(R.layout.story3);
 
-                current = findViewById(R.id.story_text3);
-                current.setText(
+                current1 = findViewById(R.id.story_text3);
+                current1.setText(
                         "To access your mission readiness, we need to know more about your current situation. \n\n" +
                         "The reincarnation magic should have picked an average family for you to ensure maximum likelihood that you reached maturation, " +
                         "and restored your memory at the appropriate time. \n\n" +
@@ -74,8 +86,8 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
             case R.id.story_proceed3:
                 setContentView(R.layout.story4);
 
-                current = findViewById(R.id.story_text4);
-                current.setText(
+                current1 = findViewById(R.id.story_text4);
+                current1.setText(
                         "Your number one priority is to keep your cover while operating on behind opposition lines. " +
                         "A hefty price was paid to send you to there. We will not lose you to Earth's surveillance state. \n\n" +
                         "Please choose the option that most accurately describe your situation, " +
@@ -88,6 +100,18 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
 
                 homeActivityIntent.putExtra("Call Sign", username);
                 homeActivityIntent.putExtra("Unit Designation", password);
+
+                File file = getApplicationContext().getFileStreamPath(FILE_NAME);
+                try {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    fos.write("".getBytes());
+                    fos.flush();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 startActivity(homeActivityIntent);
                 finish();
