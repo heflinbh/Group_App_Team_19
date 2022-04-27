@@ -1,5 +1,7 @@
 package edu.neu.theworstgame;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public class User implements Serializable {
         this.password = password;
         this.displayName = username;
         this.completedMissions = new ArrayList<>();
-        this.lastMissionTimestamp = System.currentTimeMillis();
+        this.lastMissionTimestamp = -1;
         this.missionAccomplished = 0;
         this.points = 0;
     }
@@ -63,19 +65,41 @@ public class User implements Serializable {
         return password;
     }
 
+    public void setPassword(String password1) {
+        password = password1;
+    }
+
     public String getDisplayName() {
         return displayName;
+    }
+
+    public void setDisplayName(String displayName1) {
+        displayName = displayName1;
     }
 
     public long getLastMissionTimestamp() {
         return lastMissionTimestamp;
     }
 
+    public void setLastMissionTimestamp() {
+        lastMissionTimestamp = System.currentTimeMillis();
+    }
+
     public int getMissionAccomplished() {
         return missionAccomplished;
     }
 
+    public int addOneMissionAccomplished() {
+        missionAccomplished++;
+        return missionAccomplished;
+    }
+
     public int getPoints() {
+        return points;
+    }
+
+    public int addPoints(int adding) {
+        points += adding;
         return points;
     }
 
@@ -99,6 +123,11 @@ public class User implements Serializable {
         } else {
             return "Crystal";
         }
+    }
+
+
+    public void updateUserToFirebase (DatabaseReference myRefUsers) {
+        myRefUsers.child(this.username).setValue(this);
     }
 
 }

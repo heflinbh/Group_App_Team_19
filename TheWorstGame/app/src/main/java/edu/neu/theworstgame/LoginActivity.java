@@ -112,11 +112,8 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
         User user = new User(username
                 , password
-                , display_name
-                , System.currentTimeMillis()
-                , 0
-                , 0
         );
+        user.setDisplayName(display_name);
         myRef.child(username).setValue(user);
 
         Toast.makeText( this, "User created.", Toast.LENGTH_SHORT).show();
