@@ -1,5 +1,6 @@
 package edu.neu.theworstgame;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,8 +10,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +33,8 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
 
     private String username;
     private String password;
+
+    private User user;
 
     private final String FILE_NAME = "AGENT.txt";
 
@@ -67,6 +76,54 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                 username = callSign.getEditText().getText().toString();
                 password = unitDesignation.getEditText().getText().toString();
 
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
+
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.hasChild(username)){
+
+                            myRef.child(username).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                    user = snapshot.getValue(User.class);
+
+                                    if (!password.equals(user.getPassword())){
+                                        Toast.makeText(StoryStart.this, "Password incorrect.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(StoryStart.this, "Logged in.", Toast.LENGTH_SHORT).show();
+
+                                        Intent homeActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        homeActivityIntent.putExtra("Call Sign", username);
+                                        homeActivityIntent.putExtra("Unit Designation", password);
+                                        homeActivityIntent.putExtra("user", user);
+                                        startActivity(homeActivityIntent);
+                                    };
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        } else {
+                            User user = new User(username
+                                    , password
+                            );
+                            myRef.child(username).setValue(user);
+
+                            Toast.makeText(StoryStart.this, "User created", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
                 setContentView(R.layout.story3);
 
                 current1 = findViewById(R.id.story_text3);
@@ -100,6 +157,10 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
 
                 homeActivityIntent.putExtra("Call Sign", username);
                 homeActivityIntent.putExtra("Unit Designation", password);
+                user = new User(username
+                        , password
+                );
+                homeActivityIntent.putExtra("user", user);
 
                 File file = getApplicationContext().getFileStreamPath(FILE_NAME);
                 try {
