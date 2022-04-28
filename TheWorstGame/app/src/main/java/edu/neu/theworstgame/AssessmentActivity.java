@@ -38,7 +38,7 @@ public class AssessmentActivity extends AppCompatActivity implements AdapterView
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.requestMissionButton:
-                Intent alphaMissionActivity = new Intent(getApplicationContext(), MissionAlphaActivity.class);
+                Intent alphaMissionActivity = new Intent(getApplicationContext(), JumpingJacksMission.class);
                 startActivity(alphaMissionActivity);
                 break;
         }

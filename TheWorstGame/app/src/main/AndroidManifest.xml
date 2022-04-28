@@ -31,6 +31,8 @@
         <activity
             android:name=".MissionAlphaActivity"
             android:exported="false" />
+        <activity android:name=".JumpingJacksMission"
+            android:exported="false"/>
         <activity
             android:name=".LoginActivity"
             android:exported="false" />

@@ -13,6 +13,7 @@ public class MissionAlphaActivity extends AppCompatActivity {
     TextView missionTimer;
     TextView missionHeader;
     TextView missionDesc;
+    TextView missionCounter;
     Missions missionsDatabase;
     User user;
 
@@ -23,14 +24,16 @@ public class MissionAlphaActivity extends AppCompatActivity {
         missionTimer= findViewById(R.id.missionTimer);
         missionDesc = findViewById(R.id.missionDesc);
         missionHeader = findViewById(R.id.missionHeader);
+        missionCounter = findViewById(R.id.missionCounter);
         missionsDatabase = new Missions();
         // need to figure out how to get the current user's name here
         user = new User("worst", "Novice");
         // hardcoded for now to get an easy mission with a simple timer
-        Mission mission = missionsDatabase.getEasyMissions().get(0);
+        Mission mission = missionsDatabase.getSensorMissions("ROTATION").get(0);
 
         missionDesc.setText(mission.getMissionDescription());
         missionHeader.setText(mission.getMissionName());
+        missionCounter.setText(0);
 
         new CountDownTimer(30000, 1000){
             public void onTick(long millisUntilFinished){
