@@ -90,7 +90,7 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                                     user = snapshot.getValue(User.class);
 
                                     if (!password.equals(user.getPassword())){
-                                        Toast.makeText(StoryStart.this, "Password incorrect.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(StoryStart.this, "Username exist. Please change another call sign.", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(StoryStart.this, "Logged in.", Toast.LENGTH_SHORT).show();
 
@@ -114,6 +114,22 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                             myRef.child(username).setValue(user);
 
                             Toast.makeText(StoryStart.this, "User created", Toast.LENGTH_SHORT).show();
+
+                            setContentView(R.layout.story3);
+
+                            current1 = findViewById(R.id.story_text3);
+                            current1.setText(
+                                    "To access your mission readiness, we need to know more about your current situation. \n\n" +
+                                            "The reincarnation magic should have picked an average family for you to ensure maximum likelihood that you reached maturation, " +
+                                            "and restored your memory at the appropriate time. \n\n" +
+                                            "Please confirm approximately how many years ago you arrived on Earth."
+                            );
+
+                            spinner = findViewById(R.id.age_spinner);
+                            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(StoryStart.this,
+                                    R.array.ages, android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(adapter);
+                            spinner.setOnItemSelectedListener(StoryStart.this);
                         }
                     }
 
@@ -124,21 +140,21 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                 });
 
 
-                setContentView(R.layout.story3);
-
-                current1 = findViewById(R.id.story_text3);
-                current1.setText(
-                        "To access your mission readiness, we need to know more about your current situation. \n\n" +
-                        "The reincarnation magic should have picked an average family for you to ensure maximum likelihood that you reached maturation, " +
-                        "and restored your memory at the appropriate time. \n\n" +
-                        "Please confirm approximately how many years ago you arrived on Earth."
-                );
-
-                spinner = findViewById(R.id.age_spinner);
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                        R.array.ages, android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(this);
+//                setContentView(R.layout.story3);
+//
+//                current1 = findViewById(R.id.story_text3);
+//                current1.setText(
+//                        "To access your mission readiness, we need to know more about your current situation. \n\n" +
+//                        "The reincarnation magic should have picked an average family for you to ensure maximum likelihood that you reached maturation, " +
+//                        "and restored your memory at the appropriate time. \n\n" +
+//                        "Please confirm approximately how many years ago you arrived on Earth."
+//                );
+//
+//                spinner = findViewById(R.id.age_spinner);
+//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                        R.array.ages, android.R.layout.simple_spinner_dropdown_item);
+//                spinner.setAdapter(adapter);
+//                spinner.setOnItemSelectedListener(this);
                 break;
             case R.id.story_proceed3:
                 setContentView(R.layout.story4);
