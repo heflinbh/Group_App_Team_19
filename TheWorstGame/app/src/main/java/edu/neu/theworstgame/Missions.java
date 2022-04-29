@@ -10,8 +10,8 @@ public class Missions {
 
     public Missions() {
         missionList = new ArrayList<Mission>();
-        missionList.add(new Mission("Clean up", "Secretly up a common area in your habitat to make the humans around you relaxed", "", 10));
-        missionList.add(new Mission("Source magic", "Locate a nearby tree and assess its capabilities to generate magic. Report back its quotient", "", 20));
+        missionList.add(new Mission("Clean up", "Secretly clean up a common area in your habitat to make the humans around you relaxed", "", 10));
+        missionList.add(new Mission("Source magic", "Locate a nearby tree and assess its capabilities to generate magic. Report back its quotient", "CAMERA", 20));
         missionList.add(new Mission("Get moving", "Do 10 jumping jacks (hold the phone in your hand, we're checking)", "ROTATION", 1));
     }
 

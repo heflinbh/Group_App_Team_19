@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     String callSign;
     String unitDesignation;
     User user;
+    ProgressBar progress;
 
     TextView welcomeTextView;
 
@@ -24,15 +26,16 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Bundle intent = getIntent().getExtras();
-        if (intent != null) {
-            callSign = intent.getString("Call Sign");
-            unitDesignation = intent.getString("Unit Designation");
-            user = (User) intent.getSerializable("user");
+        progress = findViewById(R.id.progressBar2);
 
-            welcomeTextView = findViewById(R.id.welcomeTextView);
-            welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
-        }
+        Bundle intent = getIntent().getExtras();
+        callSign = intent.getString("Call Sign");
+        unitDesignation = intent.getString("Unit Designation");
+        user = (User) intent.getSerializable("user");
+
+        welcomeTextView = findViewById(R.id.welcomeTextView);
+        welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
+        progress.setProgress(user.getPoints(),true);
 
     }
 
@@ -40,6 +43,9 @@ public class HomeActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.startNewMissionButton:
                 Intent assessmentActivity = new Intent(getApplicationContext(), AssessmentActivity.class);
+                System.out.println("is the user null home onclick?");
+                System.out.println(user == null);
+                assessmentActivity.putExtra("user", user);
                 startActivity(assessmentActivity);
                 break;
         }

@@ -9,11 +9,13 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.MessageFormat;
 
-public class JumpingJacksMission extends AppCompatActivity {
+public class JumpingJacksActivity extends AppCompatActivity {
 
-    public int counter = 500;
     TextView missionHeader;
     TextView missionDesc;
     TextView missionCounter;
@@ -34,6 +36,11 @@ public class JumpingJacksMission extends AppCompatActivity {
         missionDesc.setText(mission.getMissionDescription());
         missionHeader.setText(mission.getMissionName());
         jumpCount = savedInstanceState != null ? savedInstanceState.getInt("count", jumpCount) : 0;
+        Bundle intent = getIntent().getExtras();
+        User user = (User) intent.getSerializable("user");
+        Mission jumpingJacks = new Missions().getSensorMissions("ROTATION").get(0);
+
+
         if (jumpCount > 0 && jumpCount< 20) {
             int missionJumpCount;
             if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
@@ -53,6 +60,11 @@ public class JumpingJacksMission extends AppCompatActivity {
             // TODO: open debrief activity here once it's done
         } else {
             missionCounter.setText("You've done 0 jumping jacks. What's the hold up?");
+            user.addCompletedMission(jumpingJacks);
+            user.addOneMissionAccomplished();
+            user.addPoints(jumpingJacks.getPoints());
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
+            user.updateUserToFirebase(myRef);
         }
 
     }
@@ -64,4 +76,5 @@ public class JumpingJacksMission extends AppCompatActivity {
         jumpCount++;
         savedInstanceState.putInt("count", jumpCount);
     }
+
 }

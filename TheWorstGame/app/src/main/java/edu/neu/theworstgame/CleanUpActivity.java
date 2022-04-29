@@ -7,15 +7,15 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
-public class MissionAlphaActivity extends AppCompatActivity {
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-    public int counter = 500;
+public class CleanUpActivity extends AppCompatActivity {
+
     TextView missionTimer;
     TextView missionHeader;
     TextView missionDesc;
-    TextView missionCounter;
     Missions missionsDatabase;
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +24,26 @@ public class MissionAlphaActivity extends AppCompatActivity {
         missionTimer= findViewById(R.id.missionTimer);
         missionDesc = findViewById(R.id.missionDesc);
         missionHeader = findViewById(R.id.missionHeader);
-        missionCounter = findViewById(R.id.missionCounter);
         missionsDatabase = new Missions();
-        // need to figure out how to get the current user's name here
-        user = new User("worst", "Novice");
-        // hardcoded for now to get an easy mission with a simple timer
-        Mission mission = missionsDatabase.getSensorMissions("ROTATION").get(0);
+        Mission mission = missionsDatabase.getEasyMissions().get(0);
+        Bundle intent = getIntent().getExtras();
+        User user = (User) intent.getSerializable("user");
 
         missionDesc.setText(mission.getMissionDescription());
         missionHeader.setText(mission.getMissionName());
-        missionCounter.setText(0);
+        int timeLimit = mission.getTimeLimit()*60;
 
-        new CountDownTimer(30000, 1000){
+        new CountDownTimer(timeLimit*1000, 1000){
             public void onTick(long millisUntilFinished){
-                missionTimer.setText(String.valueOf(mission.getTimeLimit()*60));
-                counter--;
+                missionTimer.setText(millisUntilFinished / 1000 + " seconds left.");
             }
             public  void onFinish(){
                 missionTimer.setText("Time is up!");
+                user.addCompletedMission(mission);
+                user.addOneMissionAccomplished();
+                user.addPoints(mission.getPoints());
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
+                user.updateUserToFirebase(myRef);
             }
         }.start();
     }

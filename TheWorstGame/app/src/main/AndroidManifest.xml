@@ -29,9 +29,11 @@
             android:name=".DebriefActivity"
             android:exported="false" />
         <activity
-            android:name=".MissionAlphaActivity"
+            android:name=".CleanUpActivity"
             android:exported="false" />
-        <activity android:name=".JumpingJacksMission"
+        <activity android:name=".JumpingJacksActivity"
+            android:exported="false"/>
+        <activity android:name=".MagicActivity"
             android:exported="false"/>
         <activity
             android:name=".LoginActivity"

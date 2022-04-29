@@ -9,7 +9,7 @@
     android:paddingTop="10dp"
     android:paddingRight="10dp"
     android:paddingBottom="10dp"
-    tools:context="edu.neu.theworstgame.MissionAlphaActivity">
+    tools:context="edu.neu.theworstgame.CleanUpActivity">
 
     <TextView
         android:id="@+id/missionDesc"
