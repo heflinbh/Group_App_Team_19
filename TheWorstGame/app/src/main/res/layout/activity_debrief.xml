@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".DebriefActivity">
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="203dp"
+        android:layout_height="93dp"
+        android:layout_marginTop="180dp"
+        android:text="TextView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="105dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

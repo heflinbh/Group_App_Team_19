@@ -10,9 +10,8 @@ public class Missions {
 
     public Missions() {
         missionList = new ArrayList<Mission>();
-        missionList.add(new Mission("Snack time", "Make a snack to nourish your human body", "", 10));
-        missionList.add(new Mission("Walk away", "Walk 100m away from where you are right now", "LOCATION", 0));
-        missionList.add(new Mission("Tree gazing", "Find a tree, take an aesthetically pleasing photo and send it to a friend with a stupid caption", "CAMERA", 0));
+        missionList.add(new Mission("Clean up", "Secretly up a common area in your habitat to make the humans around you relaxed", "", 10));
+        missionList.add(new Mission("Source magic", "Locate a nearby tree and assess its capabilities to generate magic. Report back its quotient", "", 20));
         missionList.add(new Mission("Get moving", "Do 10 jumping jacks (hold the phone in your hand, we're checking)", "ROTATION", 1));
     }
 
@@ -32,13 +31,14 @@ public class Missions {
         return sensorList;
     }
 
-    public Mission suggestMission(User user) {
+    public Mission suggestMission(User user, int timeAvailable, int tiredness, boolean productive) {
         ArrayList<Mission> outstandingMissions = new ArrayList<>();
         for (Mission mission : missionList) {
             if (!user.getCompletedMissions().contains(mission)) {
                 outstandingMissions.add(mission);
             }
         }
+
         int random = (int)(Math.random() * outstandingMissions.size());
         return outstandingMissions.get(random);
     }

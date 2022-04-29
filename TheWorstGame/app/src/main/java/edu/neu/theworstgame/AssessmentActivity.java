@@ -54,4 +54,5 @@ public class AssessmentActivity extends AppCompatActivity implements AdapterView
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
 }
