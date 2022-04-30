@@ -39,9 +39,8 @@ public class AssessmentActivity extends AppCompatActivity implements AdapterView
 
         productivitySelection = findViewById(R.id.radioGroup);
         Bundle intent = getIntent().getExtras();
-        User user = (User) intent.getSerializable("user");
-        System.out.println("is the user null? - assessment oncreate");
-        System.out.println(user == null);}
+        user = (User) intent.getSerializable("user");
+    }
 
     public void onClick(View view) {
         if (view.getId() == R.id.requestMissionButton) {
@@ -49,11 +48,7 @@ public class AssessmentActivity extends AppCompatActivity implements AdapterView
             Object timeChoice = timeSpinner.getSelectedItem();
             Object fatigueChoice = fatigueSpinner.getSelectedItem();
             int productivityChoice = productivitySelection.getCheckedRadioButtonId();
-
-            System.out.println("is the user null - assessment?");
-            System.out.println(user == null);
             missionResult = routeToMission(timeChoice, fatigueChoice, productivityChoice);
-            missionResult.putExtra("user", user);
             startActivity(missionResult);
         }
     }
@@ -98,6 +93,7 @@ public class AssessmentActivity extends AppCompatActivity implements AdapterView
         } else {
             missionActivity = new Intent(getApplicationContext(), CleanUpActivity.class);
         }
+        missionActivity.putExtra("user", user);
         return missionActivity;
     }
 

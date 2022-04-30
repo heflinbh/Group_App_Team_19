@@ -21,12 +21,16 @@ public class HomeActivity extends AppCompatActivity {
     ProgressBar progress;
 
     TextView welcomeTextView;
+    TextView tierProgress;
+    TextView nextReward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         progress = findViewById(R.id.progressBar2);
+        tierProgress = findViewById(R.id.tierProgressTextView);
+        nextReward = findViewById(R.id.nextRewardTextView);
 
         Bundle intent = getIntent().getExtras();
         callSign = intent.getString("Call Sign");
@@ -36,6 +40,9 @@ public class HomeActivity extends AppCompatActivity {
         welcomeTextView = findViewById(R.id.welcomeTextView);
         welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
         progress.setProgress(user.getPoints(),true);
+        tierProgress.setText("Tier Progress: " + user.getPoints() + " Points - " + user.calculateTier());
+        nextReward.setText("Next Reward: " + user.calculateNextTier());
+
 
     }
 
@@ -43,8 +50,6 @@ public class HomeActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.startNewMissionButton:
                 Intent assessmentActivity = new Intent(getApplicationContext(), AssessmentActivity.class);
-                System.out.println("is the user null home onclick?");
-                System.out.println(user == null);
                 assessmentActivity.putExtra("user", user);
                 startActivity(assessmentActivity);
                 break;

@@ -158,4 +158,23 @@ public class User implements Serializable {
         myRefUsers.child(this.username).setValue(this);
     }
 
+    public String calculateNextTier() {
+        String currentTier = this.calculateTier();
+        switch (currentTier) {
+            case "Unranked":
+                return "Bronze";
+            case "Bronze":
+                return "Silver";
+            case "Silver":
+                return "Gold";
+            case "Gold":
+                return "Platinum";
+            case "Platinum":
+                return "Diamond";
+            case "Diamond":
+                return "Crystal";
+            default:
+                return "Enlightenment";
+        }
+    }
 }

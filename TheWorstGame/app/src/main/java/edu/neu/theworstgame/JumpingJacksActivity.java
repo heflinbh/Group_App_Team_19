@@ -2,6 +2,7 @@ package edu.neu.theworstgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -22,6 +23,7 @@ public class JumpingJacksActivity extends AppCompatActivity {
     Missions missionsDatabase;
     boolean orientationChanged;
     int jumpCount = 0;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class JumpingJacksActivity extends AppCompatActivity {
         missionHeader.setText(mission.getMissionName());
         jumpCount = savedInstanceState != null ? savedInstanceState.getInt("count", jumpCount) : 0;
         Bundle intent = getIntent().getExtras();
-        User user = (User) intent.getSerializable("user");
+        user = (User) intent.getSerializable("user");
         Mission jumpingJacks = new Missions().getSensorMissions("ROTATION").get(0);
 
 
@@ -57,14 +59,15 @@ public class JumpingJacksActivity extends AppCompatActivity {
         } else if (jumpCount >= 20){
             missionCounter.setText("Look at you! You did it!");
             missionDesc.setText("Mission accomplished. Stop jumping. Humans will suspect you.");
-            // TODO: open debrief activity here once it's done
-        } else {
-            missionCounter.setText("You've done 0 jumping jacks. What's the hold up?");
-            user.addCompletedMission(jumpingJacks);
-            user.addOneMissionAccomplished();
             user.addPoints(jumpingJacks.getPoints());
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
             user.updateUserToFirebase(myRef);
+            Intent debriefActivity = new Intent(getApplicationContext(), DebriefActivity.class);
+            startActivity(debriefActivity);
+        } else {
+            missionCounter.setText("You've done 0 jumping jacks. What's the hold up?");
+//            user.addCompletedMission(jumpingJacks); // cannot invoke on a null object reference error
+//            user.addOneMissionAccomplished();
         }
 
     }
