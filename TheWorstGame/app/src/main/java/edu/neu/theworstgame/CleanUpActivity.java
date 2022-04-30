@@ -2,6 +2,7 @@ package edu.neu.theworstgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.CountDownTimer;
@@ -39,11 +40,11 @@ public class CleanUpActivity extends AppCompatActivity {
             }
             public  void onFinish(){
                 missionTimer.setText("Time is up!");
-                user.addCompletedMission(mission);
-                user.addOneMissionAccomplished();
                 user.addPoints(mission.getPoints());
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
                 user.updateUserToFirebase(myRef);
+                Intent debriefActivity = new Intent(getApplicationContext(), DebriefActivity.class);
+                startActivity(debriefActivity);
             }
         }.start();
     }

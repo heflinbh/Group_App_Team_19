@@ -66,8 +66,6 @@ public class JumpingJacksActivity extends AppCompatActivity {
             startActivity(debriefActivity);
         } else {
             missionCounter.setText("You've done 0 jumping jacks. What's the hold up?");
-//            user.addCompletedMission(jumpingJacks); // cannot invoke on a null object reference error
-//            user.addOneMissionAccomplished();
         }
 
     }
