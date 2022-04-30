@@ -1,5 +1,6 @@
 package edu.neu.theworstgame;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,14 +8,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SocialActivity extends AppCompatActivity {
 
     private String callSign;
+    private User thisUser;
 
-    private ArrayList<User> friendsList;
+    private ArrayList<User> userArrayList;
     private RecyclerView socialRecyclerView;
 
     @Override
@@ -22,20 +33,38 @@ public class SocialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social);
 
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("users");
+
         Bundle intent = getIntent().getExtras();
-        callSign = intent.getString("Call Sign");
+        if (intent != null){
+            callSign = intent.getString("Call Sign");
+            thisUser = (User) intent.getSerializable("user");
+        } else {
+            thisUser = new User();
+        }
+
         TextView socialTextView = findViewById(R.id.socialWelcomeTextView);
-        socialTextView.setText("Showing Social for " + callSign);
+        socialTextView.setText("Showing Leaderboard");
 
         socialRecyclerView = findViewById(R.id.socialRecyclerView);
 
-        friendsList = new ArrayList<>();
-        setFriendList();
+        userArrayList = new ArrayList<User>();
+//        setFriendList();
+        userArrayList.add(thisUser);
+        setAdapter();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("users");
+        setLeaderboard(myRef);
         setAdapter();
     }
 
     private void setAdapter() {
-        SocialRecyclerAdapter adapter = new SocialRecyclerAdapter(friendsList);
+        SocialRecyclerAdapter adapter = new SocialRecyclerAdapter(userArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
 
         socialRecyclerView.setLayoutManager(layoutManager);
@@ -48,18 +77,42 @@ public class SocialActivity extends AppCompatActivity {
         // Get Friend List from Database
 
         // Sample users added below
-        friendsList.add(new User("Benjamin", "Novice"));
-        friendsList.add(new User("Yuan", "Apprentice"));
-        friendsList.add(new User("Chenyang", "Veteran"));
-        friendsList.add(new User("Vandita", "Expert"));
+//        userArrayList.add(new User("Benjamin", "Novice"));
+//        userArrayList.add(new User("Yuan", "Apprentice"));
+//        userArrayList.add(new User("Chenyang", "Veteran","display", -1,4,100));
+//        userArrayList.add(new User("Vandita", "Expert"));
+//
+//        userArrayList.add(new User("One", "Novice"));
+//        userArrayList.add(new User("Two", "Apprentice"));
+//        userArrayList.add(new User("Three", "Veteran"));
+//        userArrayList.add(new User("Four", "Expert"));
+//        userArrayList.add(new User("Five", "Novice"));
+//        userArrayList.add(new User("Six", "Apprentice"));
+//        userArrayList.add(new User("Seven", "Veteran"));
+//        userArrayList.add(new User("Eight", "Expert"));
+    }
 
-        friendsList.add(new User("One", "Novice"));
-        friendsList.add(new User("Two", "Apprentice"));
-        friendsList.add(new User("Three", "Veteran"));
-        friendsList.add(new User("Four", "Expert"));
-        friendsList.add(new User("Five", "Novice"));
-        friendsList.add(new User("Six", "Apprentice"));
-        friendsList.add(new User("Seven", "Veteran"));
-        friendsList.add(new User("Eight", "Expert"));
+    private void setLeaderboard(DatabaseReference myRef) {
+
+        Query query = myRef.orderByChild("points").limitToLast(10);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot shot:snapshot.getChildren()) {
+                    User user;
+                    user = shot.getValue(User.class);
+                    userArrayList.add(user);
+                }
+                Collections.reverse(userArrayList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(SocialActivity.this, "getting user list failed", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 }
