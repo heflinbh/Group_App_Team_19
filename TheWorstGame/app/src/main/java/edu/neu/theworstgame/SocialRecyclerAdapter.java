@@ -1,5 +1,6 @@
 package edu.neu.theworstgame;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,24 +21,37 @@ public class SocialRecyclerAdapter extends RecyclerView.Adapter<SocialRecyclerAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView friendNameTV;
+        private TextView friendRankTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             friendNameTV = itemView.findViewById(R.id.friendUsernameTextView);
+            friendRankTextView = itemView.findViewById(R.id.friendRankTextView);
         }
     }
 
     @NonNull
     @Override
     public SocialRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_friends, parent, false);
-        return new MyViewHolder(itemView);
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+
+        View contactView = inflater.inflate(R.layout.list_friends, parent, false);
+
+        return new MyViewHolder(contactView);
+//        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_friends, parent, false);
+//        return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SocialRecyclerAdapter.MyViewHolder holder, int position) {
-        String friendName = usersList.get(position).getUsername();
+
+        User user = usersList.get(position);
+
+        String friendName = user.getUsername();
         holder.friendNameTV.setText(friendName);
+        String tier = user.calculateTier();
+        holder.friendRankTextView.setText(tier);
 
     }
 

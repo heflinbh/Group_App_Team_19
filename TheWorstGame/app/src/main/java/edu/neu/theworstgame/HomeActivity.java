@@ -12,6 +12,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class HomeActivity extends AppCompatActivity {
 
     String callSign;
@@ -68,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT).show();
                 Intent socialActivity = new Intent(getApplicationContext(), SocialActivity.class);
                 socialActivity.putExtra("Call Sign", callSign);
+                socialActivity.putExtra("user", user);
                 startActivity(socialActivity);
                 return true;
             default:
