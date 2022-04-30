@@ -33,10 +33,10 @@ public class DebriefActivity extends AppCompatActivity {
         );
     }
 
-    public void onClick(View view) {
-        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-        i.putExtra("user", user);
-        startActivity(i);
-        finish();
-    }
+//    public void onClick(View view) {
+//        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+//        i.putExtra("user", user);
+//        startActivity(i);
+//        finish();
+//    }
 }

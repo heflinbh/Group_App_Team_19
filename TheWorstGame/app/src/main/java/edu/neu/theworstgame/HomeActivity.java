@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,22 +27,31 @@ public class HomeActivity extends AppCompatActivity {
     String callSign;
     String unitDesignation;
     User user;
+    ProgressBar progress;
 
     TextView welcomeTextView;
+    TextView tierProgress;
+    TextView nextReward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Bundle intent = getIntent().getExtras();
-        if (intent != null) {
-            callSign = intent.getString("Call Sign");
-            unitDesignation = intent.getString("Unit Designation");
-            user = (User) intent.getSerializable("user");
+        progress = findViewById(R.id.progressBar2);
+        tierProgress = findViewById(R.id.tierProgressTextView);
+        nextReward = findViewById(R.id.nextRewardTextView);
 
-            welcomeTextView = findViewById(R.id.welcomeTextView);
-            welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
-        }
+        Bundle intent = getIntent().getExtras();
+        callSign = intent.getString("Call Sign");
+        unitDesignation = intent.getString("Unit Designation");
+        user = (User) intent.getSerializable("user");
+
+        welcomeTextView = findViewById(R.id.welcomeTextView);
+        welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
+        progress.setProgress(user.getPoints(),true);
+        tierProgress.setText("Tier Progress: " + user.getPoints() + " Points - " + user.calculateTier());
+        nextReward.setText("Next Reward: " + user.calculateNextTier());
+
 
     }
 
@@ -49,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.startNewMissionButton:
                 Intent assessmentActivity = new Intent(getApplicationContext(), AssessmentActivity.class);
+                assessmentActivity.putExtra("user", user);
                 startActivity(assessmentActivity);
                 break;
         }

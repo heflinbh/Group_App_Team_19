@@ -10,6 +10,7 @@ public class Mission {
     private int timeLimit;
     // how many times a user should be assigned this mission
     private int frequency;
+    private int points;
 
     public Mission(String missionName, String missionDescription, String sensorUsed, int timeLimit) {
         this.missionName = missionName;
@@ -17,6 +18,7 @@ public class Mission {
         this.sensorUsed = sensorUsed;
         this.timeLimit = timeLimit;
         this.frequency = frequency;
+        this.points = 3;
     }
 
     public String getMissionName() {
@@ -37,6 +39,10 @@ public class Mission {
 
     public int getFrequency() {
         return frequency;
+    }
+
+    public int getPoints() {
+        return points;
     }
 
 }

@@ -2,6 +2,7 @@ package edu.neu.theworstgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -9,17 +10,20 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.MessageFormat;
 
-public class JumpingJacksMission extends AppCompatActivity {
+public class JumpingJacksActivity extends AppCompatActivity {
 
-    public int counter = 500;
     TextView missionHeader;
     TextView missionDesc;
     TextView missionCounter;
     Missions missionsDatabase;
     boolean orientationChanged;
     int jumpCount = 0;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,11 @@ public class JumpingJacksMission extends AppCompatActivity {
         missionDesc.setText(mission.getMissionDescription());
         missionHeader.setText(mission.getMissionName());
         jumpCount = savedInstanceState != null ? savedInstanceState.getInt("count", jumpCount) : 0;
+        Bundle intent = getIntent().getExtras();
+        user = (User) intent.getSerializable("user");
+        Mission jumpingJacks = new Missions().getSensorMissions("ROTATION").get(0);
+
+
         if (jumpCount > 0 && jumpCount< 20) {
             int missionJumpCount;
             if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
@@ -50,7 +59,11 @@ public class JumpingJacksMission extends AppCompatActivity {
         } else if (jumpCount >= 20){
             missionCounter.setText("Look at you! You did it!");
             missionDesc.setText("Mission accomplished. Stop jumping. Humans will suspect you.");
-            // TODO: open debrief activity here once it's done
+            user.addPoints(jumpingJacks.getPoints());
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
+            user.updateUserToFirebase(myRef);
+            Intent debriefActivity = new Intent(getApplicationContext(), DebriefActivity.class);
+            startActivity(debriefActivity);
         } else {
             missionCounter.setText("You've done 0 jumping jacks. What's the hold up?");
         }
@@ -64,4 +77,5 @@ public class JumpingJacksMission extends AppCompatActivity {
         jumpCount++;
         savedInstanceState.putInt("count", jumpCount);
     }
+
 }
