@@ -14,11 +14,11 @@
     <string name="add_friend">Add Friend</string>
     <string name="username">Username</string>
     <string name="rank">Rank</string>
-    <string name="are_you_tired">Are you tired?</string>
-    <string name="give_me_a_mission">Give me a mission!</string>
-    <string name="do_you_have_time">Do you have time?</string>
+    <string name="are_you_tired">How fatigued are you?</string>
+    <string name="give_me_a_mission">Request Mission</string>
+    <string name="do_you_have_time">How long can you be away from your station?</string>
     <string name="yes">Yes</string>
-    <string name="how_good_are_you_at_being_productive">How good are you at being productive?</string>
+    <string name="how_good_are_you_at_being_productive">Do you recall your pre-reincarnation training?</string>
     <string name="no">No</string>
 
     <string-array name="ages">

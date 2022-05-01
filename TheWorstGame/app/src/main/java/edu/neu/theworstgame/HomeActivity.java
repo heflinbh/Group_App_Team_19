@@ -75,15 +75,15 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.aboutThisGame:
-                Toast.makeText(this, "About This Game", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.profile:
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.missionHistory:
-                Toast.makeText(this, "Mission History", Toast.LENGTH_SHORT).show();
-                return true;
+//            case R.id.aboutThisGame:
+//                Toast.makeText(this, "About This Game", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.profile:
+//                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.missionHistory:
+//                Toast.makeText(this, "Mission History", Toast.LENGTH_SHORT).show();
+//                return true;
             case R.id.leaderboard:
                 Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT).show();
                 Intent socialActivity = new Intent(getApplicationContext(), SocialActivity.class);
