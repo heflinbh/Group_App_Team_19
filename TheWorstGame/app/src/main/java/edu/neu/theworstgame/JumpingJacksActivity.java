@@ -52,8 +52,8 @@ public class JumpingJacksActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(JumpingJacksActivity.this);
-                builder.setMessage("Are you really going to quit?")
-                        .setTitle("Quitter...")
+                builder.setMessage("Are you really going to quit because of some unexpected obstacles?")
+                        .setTitle("Requesting Tactical Abort")
                         .setPositiveButton("Quit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent homeActivity = new Intent(getApplicationContext(), HomeActivity.class);
@@ -98,7 +98,6 @@ public class JumpingJacksActivity extends AppCompatActivity {
         }
 
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
