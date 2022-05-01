@@ -63,6 +63,7 @@ public class JumpingJacksActivity extends AppCompatActivity {
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
             user.updateUserToFirebase(myRef);
             Intent debriefActivity = new Intent(getApplicationContext(), DebriefActivity.class);
+            debriefActivity.putExtra("user", user);
             startActivity(debriefActivity);
         } else {
             missionCounter.setText("You've done 0 jumping jacks. What's the hold up?");

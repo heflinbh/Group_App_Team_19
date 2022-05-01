@@ -45,6 +45,7 @@ public class MagicActivity extends AppCompatActivity {
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
                 user.updateUserToFirebase(myRef);
                 Intent debriefActivity = new Intent(getApplicationContext(), DebriefActivity.class);
+                debriefActivity.putExtra("user", user);
                 startActivity(debriefActivity);
             }
         }.start();
