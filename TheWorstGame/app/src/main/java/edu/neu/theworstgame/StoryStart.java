@@ -69,13 +69,13 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                 break;
             case R.id.story_proceed2:
                 // Record Username and Password
-
+                
                 TextInputLayout callSign = findViewById(R.id.call_sign_input);
                 TextInputLayout unitDesignation = findViewById(R.id.unit_designation_input);
 
                 username = callSign.getEditText().getText().toString();
                 password = unitDesignation.getEditText().getText().toString();
-
+                
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
 
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -151,6 +151,10 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                 );
                 break;
             case R.id.working:
+                // Fall through
+            case R.id.training:
+                // Fall through
+            case R.id.other:
                 // record and move to main screen
                 Intent homeActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
 
@@ -174,15 +178,6 @@ public class StoryStart extends AppCompatActivity implements AdapterView.OnItemS
                 }
 
                 startActivity(homeActivityIntent);
-                finish();
-                break;
-
-            case R.id.training:
-                // record and move to main screen
-                finish();
-                break;
-            case R.id.other:
-                // record and move to main screen
                 finish();
                 break;
         }
