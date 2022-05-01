@@ -1,13 +1,17 @@
 package edu.neu.theworstgame;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +28,8 @@ public class JumpingJacksActivity extends AppCompatActivity {
     boolean orientationChanged;
     int jumpCount = 0;
     User user;
+    Button quitButton;
+    AlertDialog alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,28 @@ public class JumpingJacksActivity extends AppCompatActivity {
         Bundle intent = getIntent().getExtras();
         user = (User) intent.getSerializable("user");
         Mission jumpingJacks = new Missions().getSensorMissions("ROTATION").get(0);
+        quitButton = findViewById(R.id.quitButton);
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(JumpingJacksActivity.this);
+                builder.setMessage("Are you really going to quit?")
+                        .setTitle("Quitter...")
+                        .setPositiveButton("Quit", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent homeActivity = new Intent(getApplicationContext(), HomeActivity.class);
+                                homeActivity.putExtra("user", user);
+                                startActivity(homeActivity);                            }
+                        })
+                        .setNegativeButton("Resume", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                cancelDialog();
+                            }
+                        });
+                alert = builder.create();
+                alert.show();
+            }
+        });
 
 
         if (jumpCount > 0 && jumpCount< 20) {
@@ -77,6 +105,10 @@ public class JumpingJacksActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         jumpCount++;
         savedInstanceState.putInt("count", jumpCount);
+    }
+
+    public void cancelDialog() {
+        alert.cancel();
     }
 
 }
