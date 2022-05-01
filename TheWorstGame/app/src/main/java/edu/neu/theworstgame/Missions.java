@@ -10,9 +10,27 @@ public class Missions {
 
     public Missions() {
         missionList = new ArrayList<Mission>();
-        missionList.add(new Mission("Clean up", "Secretly clean up a common area in your habitat to make the humans around you relaxed", "", 10));
-        missionList.add(new Mission("Source magic", "Locate a nearby tree and assess its capabilities to generate magic. Report back its quotient", "CAMERA", 20));
-        missionList.add(new Mission("Get moving", "Do 10 jumping jacks (hold the phone in your hand, we're checking)", "ROTATION", 1));
+        missionList.add(new Mission(
+                "Strengthen Your Cover",
+                "Use your security training to secretly beautify a common area in around you to lull humans around you into relaxing their vigilance. Do not be discovered, and work fast!",
+                "",
+                10)
+        );
+        missionList.add(new Mission(
+                "Discover Usable Magic Sources",
+                "Locate a nearby tree or grove and assess its magic generative potential. Use the usual techniques, and report back its quotient. " +
+                        "(Hint: human magical senses are rather stunted, try some meditation techniques to see if you can improve your senses)",
+                "CAMERA",
+                20)
+        );
+        missionList.add(new Mission(
+                "Avoid Surveillance",
+                "Sometimes you need to stretch your capability even under unfavorable conditions. \n\n" +
+                        "Go to a public location without being observed, and perform 10 jumping jacks without anyone noticing " +
+                        "(hold the phone in your hand for the jumping jacks, we're checking).",
+                "ROTATION",
+                30)
+        );
     }
 
     public ArrayList<Mission> getEasyMissions() {

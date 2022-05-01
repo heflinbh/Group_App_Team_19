@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         user = (User) intent.getSerializable("user");
 
         welcomeTextView = findViewById(R.id.welcomeTextView);
-        welcomeTextView.setText("Back again, " + user.getDisplayName() + "?");
+        welcomeTextView.setText("Hail, " + user.getDisplayName());
         progress.setProgress(user.getPoints(),true);
         tierProgress.setText("Tier Progress: " + user.getPoints() + " Points - " + user.calculateTier());
         nextReward.setText("Next Reward: " + user.calculateNextTier());

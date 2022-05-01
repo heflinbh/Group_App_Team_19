@@ -53,16 +53,11 @@ public class AssessmentActivity extends AppCompatActivity implements AdapterView
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {}
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
+    public void onNothingSelected(AdapterView<?> adapterView) {}
 
     public Intent routeToMission(Object timeChoice, Object fatigueChoice, int productivityChoice) {
         int time;
@@ -86,7 +81,7 @@ public class AssessmentActivity extends AppCompatActivity implements AdapterView
         }
 
         Intent missionActivity = null;
-        if (time < 10) {
+        if (time <= 10) {
             missionActivity = new Intent(getApplicationContext(), JumpingJacksActivity.class);
         } else if (time >= 20) {
             missionActivity = new Intent(getApplicationContext(), MagicActivity.class);
